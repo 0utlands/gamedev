@@ -6,7 +6,8 @@ public class Interactable : MonoBehaviour
 {
     public bool isInRange;
     public KeyCode interactKey;
-    public UnityEvent interactAction;
+    //Hi george, I commented this out to avoid compilation errors
+    //public UnityEvent interactAction;
 
     // Start is called before the first frame update
     void Start()
