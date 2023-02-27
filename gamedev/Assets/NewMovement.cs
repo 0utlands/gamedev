@@ -11,6 +11,8 @@ public class NewMovement : MonoBehaviour
     private CharacterController charController;
     private float movementSpeed = 0.1f;
 
+    public float rotationSpeed;
+
     private void Awake()
     {
         controls = new PlayerInput();
@@ -38,6 +40,20 @@ public class NewMovement : MonoBehaviour
     {
         Debug.Log(moveVec);
         charController.Move(moveVec * movementSpeed);
+
+        //if we are moving
+        if(moveVec != Vector3.zero)
+        {
+            //change the forward direction of the players transform property to be the direction of the movement vector
+            //transform.forward = moveVec;
+            
+            //Quaternion is a type of variable specifically for storing rotations. Lookrotation creates a rotation looking in a desired direction, in this case moveVec.
+            Quaternion toRotation = Quaternion.LookRotation(moveVec, Vector3.up);
+
+            //RoatteTowards rortates from current rotation to the desired direction.
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+        }
+
     }
 
     private void OnMovementPerformed(InputAction.CallbackContext value)
