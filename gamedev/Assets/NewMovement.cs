@@ -38,7 +38,7 @@ public class NewMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(moveVec);
+        //Debug.Log(moveVec);
         charController.Move(moveVec * movementSpeed);
 
         //if we are moving
