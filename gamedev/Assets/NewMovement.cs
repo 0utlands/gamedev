@@ -10,6 +10,7 @@ public class NewMovement : MonoBehaviour
     private Vector3 moveVec = Vector3.zero;
     private CharacterController charController;
     private float movementSpeed = 0.1f;
+    public bool hasItemOnHead = false;
 
     public float rotationSpeed;
 

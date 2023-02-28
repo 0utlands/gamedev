@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public bool isInRange;
-    public KeyCode interactKey;
+    public KeyCode interactKey = KeyCode.E;
     private bool isItemOnHead = false;
     private Vector3 playerPos;
-    public float height = 1.0f;
+    public float height = 2.0f;
+    public float distanceCutoff = 0.8f;
+    GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -18,33 +19,37 @@ public class Interactable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         if (isItemOnHead) {
-            playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
+            playerPos = player.GetComponent<Transform>().position;
             transform.position = new Vector3(playerPos.x, playerPos.y + height, playerPos.z);
-            transform.forward = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().forward;
+            transform.forward = player.GetComponent<Transform>().forward;
         }
-        if (isInRange) {
 
-            if (Input.GetKeyDown(interactKey) && isItemOnHead == false)
+        if (Input.GetKeyDown(interactKey)) {
+            if (isItemOnHead)
             {
-                putItemOnHead();
-            }
-            else if (Input.GetKeyDown(interactKey) && isItemOnHead == true) {
                 dropItem();
+            }
+            else{
+                if (Vector3.Distance(player.GetComponent<Transform>().position, transform.position) < distanceCutoff) {
+                    if (!player.GetComponent<NewMovement>().hasItemOnHead) {
+                        putItemOnHead();
+                    }
+                }
             }
         }
     }
 
     public void putItemOnHead() {
         isItemOnHead = true;
-        playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
-        transform.position = new Vector3(playerPos.x, playerPos.y + height, playerPos.z);
-        transform.forward = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().forward;
+        player.GetComponent<NewMovement>().hasItemOnHead = true;
         GetComponent<BoxCollider>().enabled = false;
     }
 
     public void dropItem() {
         isItemOnHead = false;
+        player.GetComponent<NewMovement>().hasItemOnHead = false;
         GetComponent<Rigidbody>().velocity = new Vector3(0.0f,0.0f,0.0f);
         GetComponent<BoxCollider>().enabled = true;
     }
