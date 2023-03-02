@@ -18,7 +18,9 @@ public class ClickToMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(1))
+        bool isPathFinding = guardAnimator.GetBool("IsFindingPath");
+
+        if (Input.GetMouseButtonDown(1))
         {
             //we are storing the move position to be a ray, which is where abouts on the main camera view we have the mouse
             Ray movePosition = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -30,13 +32,13 @@ public class ClickToMove : MonoBehaviour
             }
         }
 
-        if ( agent.remainingDistance >= 0.5 )
+        if ( !isPathFinding && agent.remainingDistance >= 0.5 )
         {
             guardAnimator.SetBool("IsFindingPath", true);
             Debug.Log(agent.remainingDistance);
         }
 
-        if (agent.remainingDistance < 0.5)
+        if (isPathFinding && agent.remainingDistance < 0.5)
         {
             guardAnimator.SetBool("IsFindingPath", false);
             Debug.Log(agent.remainingDistance);
