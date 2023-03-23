@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.AI;
 public class GuardMovement : MonoBehaviour
@@ -11,6 +12,8 @@ public class GuardMovement : MonoBehaviour
     int currentWaypoint = 0;
     public float speed = 3.5f;
     bool movingToNoise = false;
+    [SerializeField] private float maxRadiusOfGuardToNoise = 2.0f;
+    [SerializeField] private float rotationSpeed = 100.0f;
 
     private Camera mainCamera;
 
@@ -20,6 +23,7 @@ public class GuardMovement : MonoBehaviour
         guardAnimator = GetComponent<Animator>();
         Debug.Log(guardAnimator);
         mainCamera = Camera.main;
+        agent.SetDestination(waypoints[0].transform.position);
     }
 
 
@@ -43,34 +47,68 @@ public class GuardMovement : MonoBehaviour
             }
         }
 
-        if ( !isPathFinding && agent.remainingDistance >= 0.5 )
+        if ( !isPathFinding && agent.remainingDistance >= maxRadiusOfGuardToNoise)
         {
             guardAnimator.SetBool("IsFindingPath", true);
             Debug.Log(agent.remainingDistance);
         }
 
-        if (isPathFinding && agent.remainingDistance < 0.5)
+        if (isPathFinding && agent.remainingDistance < maxRadiusOfGuardToNoise)
         {
             guardAnimator.SetBool("IsFindingPath", false);
             Debug.Log(agent.remainingDistance);
             movingToNoise = false;
+            agent.SetDestination(waypoints[currentWaypoint].transform.position);
         }
 
         //when not investigating a noise, move in a loop
         if(movingToNoise == false)
         {
-            agent.speed = 2.0f;
-            if (Vector3.Distance(this.transform.position, waypoints[currentWaypoint].transform.position) < 0.5f)
+            if(waypoints.Length > 1)
             {
-                currentWaypoint++;
-            }
+                agent.speed = 2.0f;
+                if (Vector3.Distance(this.transform.position, waypoints[currentWaypoint].transform.position) < 1.5f)
+                {
+                    if (currentWaypoint >= waypoints.Length - 1)
+                    {
+                        currentWaypoint = 0;
+                    }
+                    else
+                    {
+                        currentWaypoint++;
+                    }
 
-            if (currentWaypoint >= waypoints.Length)
+                    agent.SetDestination(waypoints[currentWaypoint].transform.position);
+                }
+            }
+            else if (agent.remainingDistance < 0.5)
             {
-                currentWaypoint = 0;
-            }
+                //agent.steeringTarget = waypoints[currentWaypoint].transform.position;
 
-            agent.SetDestination(waypoints[currentWaypoint].transform.position);
+                //ROTATING THE CHARACTER TO LOOK WHERE THEY ARE GOING
+
+                //Quaternion is a type of variable specifically for storing rotations. Lookrotation creates a rotation looking in a desired direction, in this case moveVec.
+                //make a rotation define by the direction we are moving
+                //Quaternion toRotation = Quaternion.LookRotation(, Vector3.up);
+
+                //RoatteTowards rortates from current rotation to the desired direction.
+                //rotate from where character currently is, to the direction theyre moving at, at the rotation speed
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, waypoints[currentWaypoint].transform.rotation, rotationSpeed * Time.deltaTime);
+                if (Quaternion.Angle(transform.rotation, waypoints[currentWaypoint].transform.rotation) > 90)
+                {
+                    guardAnimator.SetBool("IsFindingPath", true);
+                }
+                else
+                {
+                    guardAnimator.SetBool("IsFindingPath", false);
+                }
+
+            }
+            
+
+            
+// agent.SetDestination(waypoints[currentWaypoint].transform.position);
+
         }
 
     }
