@@ -7,16 +7,20 @@ using UnityEngine;
 public class DrawRay : MonoBehaviour
 {
 
-    
-    public GameObject guardHead;
 
-    public GameObject player;
-    public GameObject playerHead;
-    public GameObject playerBody;
-    public GameObject playerRightLeg;
-    public GameObject playerLeftLeg;
-    public GameObject playerRightArm;
-    public GameObject playerLeftArm;
+    [SerializeField] private GameObject guardHead;
+
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject playerHead;
+    [SerializeField] private GameObject playerBody;
+    [SerializeField] private GameObject playerRightLeg;
+    [SerializeField] private GameObject playerLeftLeg;
+    [SerializeField] private GameObject playerRightArm;
+    [SerializeField] private GameObject playerLeftArm;
+
+    
+
+    [SerializeField] private float guardVisionRange = 8.0f;
 
     bool playerHeadVisible = false;
     bool playerBodyVisible = false;
@@ -34,33 +38,117 @@ public class DrawRay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RaycastHit hit;
-        Ray landingRay = new Ray(guardHead.transform.position, (playerHead.transform.position - guardHead.transform.position).normalized);
-        
-        //currently we are still raycasting if the guard is looking at a wall which is within 8 units. this could be better if we did an if checking if the PLAYEr was within 8 units instead.
-        if(Physics.Raycast(landingRay, out hit, 8.0f))
+        float dist = Vector4.Distance(guardHead.transform.position, playerHead.transform.position);
+
+        if (dist <= guardVisionRange)
         {
-            /*if (hit.collider.tag == "Environment")//make this more efficient by adding whether player head is visible to the if somewhere
+            RaycastHit hit;
+            Ray landingRay = new Ray(guardHead.transform.position, (playerHead.transform.position - guardHead.transform.position).normalized);
+
+            //currently we are still raycasting if the guard is looking at a wall which is within 8 units. this could be better if we did an if checking if the PLAYEr was within 8 units instead.
+            if (Physics.Raycast(landingRay, out hit, 8.0f))
             {
-                playerHeadVisible = true;
-                UnityEngine.Debug.Log("Hit A WALL");
+                if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
+                {
+                    playerHeadVisible = true;
+                    UnityEngine.Debug.Log("Hit PLAYER HEAD");
+                }
+                else
+                {
+                    playerHeadVisible = false;
+                    //UnityEngine.Debug.Log("Hit something else");
+                }
             }
-            else
+
+
+            landingRay = new Ray(guardHead.transform.position, (playerBody.transform.position - guardHead.transform.position).normalized);
+
+            //currently we are still raycasting if the guard is looking at a wall which is within 8 units. this could be better if we did an if checking if the PLAYEr was within 8 units instead.
+            if (Physics.Raycast(landingRay, out hit, 8.0f))
             {
-                playerHeadVisible = false;
-                UnityEngine.Debug.Log("Hit player HEAD");
-            }*/
-            if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
-            {
-                playerHeadVisible = true;
-                UnityEngine.Debug.Log("Hit PLAYER HEAD");
+                if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
+                {
+                    playerBodyVisible = true;
+                    UnityEngine.Debug.Log("Hit PLAYER BODY");
+                }
+                else
+                {
+                    playerBodyVisible = false;
+                    //UnityEngine.Debug.Log("Hit something else");
+                }
             }
-            else
+
+            landingRay = new Ray(guardHead.transform.position, (playerLeftArm.transform.position - guardHead.transform.position).normalized);
+
+            //currently we are still raycasting if the guard is looking at a wall which is within 8 units. this could be better if we did an if checking if the PLAYEr was within 8 units instead.
+            if (Physics.Raycast(landingRay, out hit, 8.0f))
             {
-                playerHeadVisible = false;
-                UnityEngine.Debug.Log("Hit something else");
+                if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
+                {
+                    playerLeftArmVisible = true;
+                    UnityEngine.Debug.Log("Hit PLAYER BOLEFT ARM");
+                }
+                else
+                {
+                    playerLeftArmVisible = false;
+                    //UnityEngine.Debug.Log("Hit something else");
+                }
             }
+
+            landingRay = new Ray(guardHead.transform.position, (playerRightArm.transform.position - guardHead.transform.position).normalized);
+
+            //currently we are still raycasting if the guard is looking at a wall which is within 8 units. this could be better if we did an if checking if the PLAYEr was within 8 units instead.
+            if (Physics.Raycast(landingRay, out hit, 8.0f))
+            {
+                if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
+                {
+                    playerRightArmVisible = true;
+                    UnityEngine.Debug.Log("Hit PLAYER BORight ARM");
+                }
+                else
+                {
+                    playerRightArmVisible = false;
+                    //UnityEngine.Debug.Log("Hit something else");
+                }
+            }
+
+            landingRay = new Ray(guardHead.transform.position, (playerLeftLeg.transform.position - guardHead.transform.position).normalized);
+
+            //currently we are still raycasting if the guard is looking at a wall which is within 8 units. this could be better if we did an if checking if the PLAYEr was within 8 units instead.
+            if (Physics.Raycast(landingRay, out hit, 8.0f))
+            {
+                if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
+                {
+                    playerLeftLegVisible = true;
+                    UnityEngine.Debug.Log("Hit PLAYER BOLEFT Leg");
+                }
+                else
+                {
+                    playerLeftLegVisible = false;
+                    //UnityEngine.Debug.Log("Hit something else");
+                }
+            }
+
+            landingRay = new Ray(guardHead.transform.position, (playerRightLeg.transform.position - guardHead.transform.position).normalized);
+
+            //currently we are still raycasting if the guard is looking at a wall which is within 8 units. this could be better if we did an if checking if the PLAYEr was within 8 units instead.
+            if (Physics.Raycast(landingRay, out hit, 8.0f))
+            {
+                if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
+                {
+                    playerRightLegVisible = true;
+                    UnityEngine.Debug.Log("Hit PLAYER BORight Leg");
+                }
+                else
+                {
+                    playerRightLegVisible = false;
+                    //UnityEngine.Debug.Log("Hit something else");
+                }
+            }
+
         }
+
+        
 
         UnityEngine.Debug.DrawLine(guardHead.transform.position, playerHead.transform.position, Color.red);
         UnityEngine.Debug.DrawLine(guardHead.transform.position, playerBody.transform.position, Color.red);
