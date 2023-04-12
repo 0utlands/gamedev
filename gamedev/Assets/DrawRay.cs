@@ -7,6 +7,7 @@ using UnityEngine;
 public class DrawRay : MonoBehaviour
 {
 
+    
 
     [SerializeField] private GameObject guardHead;
 
@@ -29,10 +30,17 @@ public class DrawRay : MonoBehaviour
     bool playerRightArmVisible = false;
     bool playerLeftArmVisible = false;
 
+    public float currentAlertness;
+    public float maxAlertness = 100;
+    public AlertBarScript alertBar;
+    float rateOfDiscovery;
+
     // Start is called before the first frame update
     void Start()
     {
         //GameObject playerHead = player.transform.GetChild(1).gameObject.transform.GetChild(2).gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.transform.GetChild(1);
+        currentAlertness = 0;
+        alertBar.SetMaxAlertness(maxAlertness);
     }
 
     // Update is called once per frame
@@ -156,5 +164,53 @@ public class DrawRay : MonoBehaviour
         UnityEngine.Debug.DrawLine(guardHead.transform.position, playerLeftLeg.transform.position, Color.green);
         UnityEngine.Debug.DrawLine(guardHead.transform.position, playerRightArm.transform.position, Color.blue);
         UnityEngine.Debug.DrawLine(guardHead.transform.position, playerLeftArm.transform.position, Color.green);
+
+        //create a value from 0 to 6 depending on how many out of the 6 body parts are visible
+        int visibleBodyParts = 0;
+        if (playerHeadVisible)
+        {
+            visibleBodyParts++;
+        }
+        if (playerBodyVisible)
+        {
+            visibleBodyParts++;
+        }
+        if (playerLeftArmVisible)
+        {
+            visibleBodyParts++;
+        }
+        if (playerRightArmVisible)
+        {
+            visibleBodyParts++;
+        }
+        if (playerLeftLegVisible)
+        {
+            visibleBodyParts++;
+        }
+        if (playerRightLegVisible)
+        {
+            visibleBodyParts++;
+        }
+
+        rateOfDiscovery = 0.5f * visibleBodyParts * (8 - dist);
+        UnityEngine.Debug.Log(rateOfDiscovery);
+        //alertBar.SetAlertness(rateOfDiscovery);
+
+    }
+
+    void FixedUpdate()
+    {
+        //currentAlertness += rateOfDiscovery;
+        //if rateOfDiscovery is less than maxAlertness, increase alertness by rateOfDiscovery
+        if ((currentAlertness < maxAlertness) && (rateOfDiscovery > 0))
+        {
+            currentAlertness += rateOfDiscovery;
+        }
+        else if (currentAlertness > 0)
+        {
+            currentAlertness -= 1;
+        }
+        UnityEngine.Debug.Log("Current alertness: " + currentAlertness);
+        alertBar.SetAlertness(currentAlertness);
     }
 }
