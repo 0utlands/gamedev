@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 public class GuardMovement : MonoBehaviour
 {
-    public NavMeshAgent agent;
+    NavMeshAgent agent;
     Animator guardAnimator;
 
     public GameObject[] waypoints;
@@ -16,6 +16,11 @@ public class GuardMovement : MonoBehaviour
     [SerializeField] private float rotationSpeed = 100.0f;
 
     private Camera mainCamera;
+
+    private void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
 
     // Start is called before the first frame update
     void Start()

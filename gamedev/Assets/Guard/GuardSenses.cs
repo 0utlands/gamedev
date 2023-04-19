@@ -1,28 +1,30 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
-//using System.Diagnostics;
 using UnityEngine;
 
-public class DrawRay : MonoBehaviour
+public class GuardSenses
 {
 
+
+    //guard vision stuff
+    public GameObject player;
+    private GameObject playerHead;
+    private GameObject playerBody;
+    private GameObject playerRightLeg;
+    private GameObject playerLeftLeg;
+    private GameObject playerRightArm;
+    private GameObject playerLeftArm;
+
+    private GameObject guardHead;
+    private GameObject guard;
+
+    public float currentAlertness;
+    public float maxAlertness = 100;
+    public AlertBarScript alertBar;
+    float rateOfDiscovery; //this is a float representing how quickly a guard discovers the player. It is higher if more body parts of the player are visible to the guard, and if the player is closer to the guard.
     
-
-    [SerializeField] private GameObject guardHead;
-
-    [SerializeField] private GameObject player;
-    [SerializeField] private GameObject playerHead;
-    [SerializeField] private GameObject playerBody;
-    [SerializeField] private GameObject playerRightLeg;
-    [SerializeField] private GameObject playerLeftLeg;
-    [SerializeField] private GameObject playerRightArm;
-    [SerializeField] private GameObject playerLeftArm;
-
-    
-
+    //should probably work out a better way of setting these - maybe there could be a guardSensesProfile object which comes in, and passes these to it??
+    [SerializeField] private float guardFov = 90.0f;
     [SerializeField] private float guardVisionRange = 8.0f;
 
     bool playerHeadVisible = false;
@@ -31,69 +33,58 @@ public class DrawRay : MonoBehaviour
     bool playerLeftLegVisible = false;
     bool playerRightArmVisible = false;
     bool playerLeftArmVisible = false;
-
-    public float currentAlertness;
-    public float maxAlertness = 100;
-    public AlertBarScript alertBar;
-    float rateOfDiscovery; //this is a float representing how quickly a guard discovers the player. It is higher if more body parts of the player are visible to the guard, and if the player is closer to the guard.
-    [SerializeField] private float guardFov;
-
-    // Start is called before the first frame update
-    void Start()
+    public GuardSenses(GuardStateManager guardStateManager)
     {
-        currentAlertness = 0;
-        alertBar.SetMaxAlertness(maxAlertness);
-        /*UnityEngine.Debug.Log(GetGameObjectPath(playerHead));
-        UnityEngine.Debug.Log(GetGameObjectPath(playerBody));
-        UnityEngine.Debug.Log(GetGameObjectPath(playerLeftArm));
-        UnityEngine.Debug.Log(GetGameObjectPath(playerRightArm));
-        UnityEngine.Debug.Log(GetGameObjectPath(playerLeftLeg));
-        UnityEngine.Debug.Log(GetGameObjectPath(playerRightLeg));*/
-        
+        FindPlayerAndGuardBodyParts(guardStateManager);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void updateGuardSenses() 
     {
         updateRateOfDiscoveryIfPlayerVisible();
     }
 
-    void FixedUpdate()
+    public void fixedUpdateGuardAlertness() 
     {
         updateAlertnessUsingRateOfDiscovery();
     }
 
-    public void SetPlayer(GameObject player)
+
+    public float GetGuardAlertness()
     {
-        playerHead = player.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER").gameObject;
-        playerBody = player.transform.Find("Body_09_jacket").gameObject;
-        playerLeftArm = player.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 L Clavicle/Bip001 L UpperArm/Bip001 L Forearm/Bip001 L Hand").gameObject;
-        playerRightArm = player.transform.Find("Bip001 Spine/Bip001 R Clavicle/Bip001 R UpperArm/Bip001 R Forearm/Bip001 R Hand").gameObject;
-        playerLeftLeg = player.transform.Find("Bip001/Bip001 Pelvis/Bip001 L Thigh/Bip001 L Calf").gameObject;
-        playerRightLeg = player.transform.Find("Bip001/Bip001 Pelvis/Bip001 R Thigh/Bip001 R Calf").gameObject;
+
+        return currentAlertness;
     }
 
-    public static string GetGameObjectPath(GameObject obj)
+    private void FindPlayerAndGuardBodyParts(GuardStateManager guardStateManager)
     {
-        string path = "/" + obj.name;
-        while (obj.transform.parent != null)
-        {
-            obj = obj.transform.parent.gameObject;
-            path = "/" + obj.name + path;
-        }
-        return path;
+        player = GameObject.Find("Player");
+        playerLeftArm = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 L Clavicle/Bip001 L UpperArm/Bip001 L Forearm/Bip001 L Hand");
+        playerRightArm = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 R Clavicle/Bip001 R UpperArm/Bip001 R Forearm/Bip001 R Hand");
+        playerHead = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER");
+        playerBody = GameObject.Find("Player/Body_09_jacket");
+        playerLeftLeg = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 L Thigh/Bip001 L Calf");
+        playerRightLeg = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 R Thigh/Bip001 R Calf");
+
+        guard = guardStateManager.gameObject;
+        guardHead = guard.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER").gameObject;
+
+        alertBar = guard.transform.Find("Canvas/AlertBar").gameObject.GetComponent<AlertBarScript>();
+
     }
 
     public void updateRateOfDiscoveryIfPlayerVisible()
     {
 
-        float distanceBetweenGuardAndPlayer = Vector4.Distance(guardHead.transform.position, playerHead.transform.position);
-        float angleToPlayerFromGuardsEye = Vector3.Angle(transform.forward, (player.transform.position - transform.position));
+        float distanceBetweenGuardAndPlayer = Vector4.Distance(guard.transform.position, player.transform.position);
+        float angleToPlayerFromGuardsEye = Vector3.Angle(guard.transform.forward, (player.transform.position - guard.transform.position));
         bool playerIsVisible = isPlayerVisibleToGuard(distanceBetweenGuardAndPlayer, angleToPlayerFromGuardsEye);
 
-        
+        UnityEngine.Debug.Log("Distance from guard to player: " + distanceBetweenGuardAndPlayer);
+        UnityEngine.Debug.Log("angle between guard and player: " + angleToPlayerFromGuardsEye);
+
         if (playerIsVisible)
         {
+            UnityEngine.Debug.Log("Player is visible FROM GUARDSENSES");
             updateWhichPlayerBodyPartsAreVisible();
 
         }
@@ -129,7 +120,7 @@ public class DrawRay : MonoBehaviour
 
     public bool isPlayerVisibleToGuard(float distance, float angle)
     {
-        UnityEngine.Debug.DrawLine(transform.position, transform.forward * 20 + transform.position, Color.white);
+        UnityEngine.Debug.DrawLine(guard.transform.position, guard.transform.forward * 20 + guard.transform.position, Color.white);
         //UnityEngine.Debug.Log("Angle between guard and player: " + angle);
         //UnityEngine.Debug.Log("guardhead direction vec: " + guardHead.transform.forward);
 
@@ -299,9 +290,4 @@ public class DrawRay : MonoBehaviour
         rateOfDiscovery = 0.5f * visibleBodyParts * (8 - distanceBetweenGuardAndPlayer);
         UnityEngine.Debug.Log(rateOfDiscovery);
     }
-
-
-   
-
-
 }
