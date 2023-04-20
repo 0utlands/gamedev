@@ -157,7 +157,7 @@ public class DrawRay : MonoBehaviour
             if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
             {
                 playerHeadVisible = true;
-                UnityEngine.Debug.Log("Hit PLAYER HEAD");
+                //UnityEngine.Debug.Log("Hit PLAYER HEAD");
             }
             else
             {
@@ -175,7 +175,7 @@ public class DrawRay : MonoBehaviour
             if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
             {
                 playerBodyVisible = true;
-                UnityEngine.Debug.Log("Hit PLAYER BODY");
+                //UnityEngine.Debug.Log("Hit PLAYER BODY");
             }
             else
             {

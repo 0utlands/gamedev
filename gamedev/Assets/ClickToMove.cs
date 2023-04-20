@@ -35,13 +35,13 @@ public class ClickToMove : MonoBehaviour
         if ( !isPathFinding && agent.remainingDistance >= 0.5 )
         {
             guardAnimator.SetBool("IsFindingPath", true);
-            Debug.Log(agent.remainingDistance);
+            //Debug.Log(agent.remainingDistance);
         }
 
         if (isPathFinding && agent.remainingDistance < 0.5)
         {
             guardAnimator.SetBool("IsFindingPath", false);
-            Debug.Log(agent.remainingDistance);
+            //Debug.Log(agent.remainingDistance);
         }
     }
 }
