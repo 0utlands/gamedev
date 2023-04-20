@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class GuardSenses
@@ -18,14 +19,15 @@ public class GuardSenses
     private GameObject guardHead;
     private GameObject guard;
 
-    public float currentAlertness;
-    public float maxAlertness = 100;
-    public AlertBarScript alertBar;
-    float rateOfDiscovery; //this is a float representing how quickly a guard discovers the player. It is higher if more body parts of the player are visible to the guard, and if the player is closer to the guard.
+    private float currentAlertness;
+    
+    private AlertBarScript alertBar;
+    private float rateOfDiscovery; //this is a float representing how quickly a guard discovers the player. It is higher if more body parts of the player are visible to the guard, and if the player is closer to the guard.
     
     //should probably work out a better way of setting these - maybe there could be a guardSensesProfile object which comes in, and passes these to it??
-    [SerializeField] private float guardFov = 90.0f;
-    [SerializeField] private float guardVisionRange = 8.0f;
+    private float guardFov;
+    private float guardVisionRange;
+    private float maxAlertness;
 
     bool playerHeadVisible = false;
     bool playerBodyVisible = false;
@@ -35,7 +37,25 @@ public class GuardSenses
     bool playerLeftArmVisible = false;
     public GuardSenses(GuardStateManager guardStateManager)
     {
-        FindPlayerAndGuardBodyParts(guardStateManager);
+        //finding the players body parts (they are children of the gameobject named "Player")
+        player = GameObject.Find("Player");
+        playerLeftArm = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 L Clavicle/Bip001 L UpperArm/Bip001 L Forearm/Bip001 L Hand");
+        playerRightArm = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 R Clavicle/Bip001 R UpperArm/Bip001 R Forearm/Bip001 R Hand");
+        playerHead = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER");
+        playerBody = GameObject.Find("Player/Body_09_jacket");
+        playerLeftLeg = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 L Thigh/Bip001 L Calf");
+        playerRightLeg = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 R Thigh/Bip001 R Calf");
+
+        //find the guard's head and alert bar using the gameobject passed in through the guardStateManager
+        guard = guardStateManager.gameObject;
+        guardHead = guard.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER").gameObject;
+        alertBar = guard.transform.Find("Canvas/AlertBar").gameObject.GetComponent<AlertBarScript>();
+
+        //get the guards vision properties from the guard state manager.
+        guardFov = guardStateManager.guardFov;
+        guardVisionRange = guardStateManager.guardVisionRange;
+        maxAlertness = guardStateManager.maxAlertness;
+        alertBar.SetMaxAlertness(maxAlertness);
     }
 
     public void updateGuardSenses() 
@@ -51,25 +71,17 @@ public class GuardSenses
 
     public float GetGuardAlertness()
     {
-
         return currentAlertness;
     }
 
-    private void FindPlayerAndGuardBodyParts(GuardStateManager guardStateManager)
+    public bool canGuardSeePlayer()
     {
-        player = GameObject.Find("Player");
-        playerLeftArm = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 L Clavicle/Bip001 L UpperArm/Bip001 L Forearm/Bip001 L Hand");
-        playerRightArm = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 R Clavicle/Bip001 R UpperArm/Bip001 R Forearm/Bip001 R Hand");
-        playerHead = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER");
-        playerBody = GameObject.Find("Player/Body_09_jacket");
-        playerLeftLeg = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 L Thigh/Bip001 L Calf");
-        playerRightLeg = GameObject.Find("Player/Bip001/Bip001 Pelvis/Bip001 R Thigh/Bip001 R Calf");
+        return currentAlertness > 0;
+    }
 
-        guard = guardStateManager.gameObject;
-        guardHead = guard.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Neck/Bip001 Head/HEAD_CONTAINER").gameObject;
-
-        alertBar = guard.transform.Find("Canvas/AlertBar").gameObject.GetComponent<AlertBarScript>();
-
+    public bool isGuardAtMaxAlertness()
+    {
+        return (currentAlertness > 0) && (currentAlertness >= maxAlertness);
     }
 
     public void updateRateOfDiscoveryIfPlayerVisible()
@@ -79,12 +91,13 @@ public class GuardSenses
         float angleToPlayerFromGuardsEye = Vector3.Angle(guard.transform.forward, (player.transform.position - guard.transform.position));
         bool playerIsVisible = isPlayerVisibleToGuard(distanceBetweenGuardAndPlayer, angleToPlayerFromGuardsEye);
 
-        UnityEngine.Debug.Log("Distance from guard to player: " + distanceBetweenGuardAndPlayer);
-        UnityEngine.Debug.Log("angle between guard and player: " + angleToPlayerFromGuardsEye);
+        
+        //UnityEngine.Debug.Log("Distance from guard to player: " + distanceBetweenGuardAndPlayer);
+        //UnityEngine.Debug.Log("angle between guard and player: " + angleToPlayerFromGuardsEye);
 
         if (playerIsVisible)
         {
-            UnityEngine.Debug.Log("Player is visible FROM GUARDSENSES");
+            //UnityEngine.Debug.Log("Player is visible FROM GUARDSENSES");
             updateWhichPlayerBodyPartsAreVisible();
 
         }
@@ -101,11 +114,14 @@ public class GuardSenses
         UnityEngine.Debug.DrawLine(guardHead.transform.position, playerLeftArm.transform.position, Color.green);
 
         int visibleBodyParts = calculateNumOfVisibleBodyParts();
+        
         updateRateOfDiscovery(visibleBodyParts, distanceBetweenGuardAndPlayer);
+        //UnityEngine.Debug.Log("ROD:  " + rateOfDiscovery);
     }
 
     public void updateAlertnessUsingRateOfDiscovery()
     {
+        //Debug.Log("Max alertness: " + maxAlertness);
         if ((currentAlertness < maxAlertness) && (rateOfDiscovery > 0))
         {
             currentAlertness += rateOfDiscovery;
@@ -148,7 +164,7 @@ public class GuardSenses
             if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
             {
                 playerHeadVisible = true;
-                UnityEngine.Debug.Log("Hit PLAYER HEAD");
+                //UnityEngine.Debug.Log("Hit PLAYER HEAD");
             }
             else
             {
@@ -166,7 +182,7 @@ public class GuardSenses
             if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
             {
                 playerBodyVisible = true;
-                UnityEngine.Debug.Log("Hit PLAYER BODY");
+                //UnityEngine.Debug.Log("Hit PLAYER BODY");
             }
             else
             {
@@ -183,7 +199,7 @@ public class GuardSenses
             if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
             {
                 playerLeftArmVisible = true;
-                UnityEngine.Debug.Log("Hit PLAYER BOLEFT ARM");
+                //UnityEngine.Debug.Log("Hit PLAYER BOLEFT ARM");
             }
             else
             {
@@ -200,7 +216,7 @@ public class GuardSenses
             if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
             {
                 playerRightArmVisible = true;
-                UnityEngine.Debug.Log("Hit PLAYER BORight ARM");
+                //UnityEngine.Debug.Log("Hit PLAYER BORight ARM");
             }
             else
             {
@@ -217,7 +233,7 @@ public class GuardSenses
             if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
             {
                 playerLeftLegVisible = true;
-                UnityEngine.Debug.Log("Hit PLAYER BOLEFT Leg");
+                //UnityEngine.Debug.Log("Hit PLAYER BOLEFT Leg");
             }
             else
             {
@@ -234,7 +250,7 @@ public class GuardSenses
             if (hit.collider.tag == "Player")//make this more efficient by adding whether player head is visible to the if somewhere
             {
                 playerRightLegVisible = true;
-                UnityEngine.Debug.Log("Hit PLAYER BORight Leg");
+                //UnityEngine.Debug.Log("Hit PLAYER BORight Leg");
             }
             else
             {
@@ -288,6 +304,6 @@ public class GuardSenses
     private void updateRateOfDiscovery(int visibleBodyParts, float distanceBetweenGuardAndPlayer)
     {
         rateOfDiscovery = 0.5f * visibleBodyParts * (8 - distanceBetweenGuardAndPlayer);
-        UnityEngine.Debug.Log(rateOfDiscovery);
+        //UnityEngine.Debug.Log(rateOfDiscovery);
     }
 }

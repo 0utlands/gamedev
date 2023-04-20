@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GuardStateManager : MonoBehaviour
+public class GuardStateManager : MonoBehaviour, SoundHearer
 {
 
     public GuardBaseState currentState;
@@ -21,8 +21,18 @@ public class GuardStateManager : MonoBehaviour
     public GameObject[] waypoints;
     public int currentWaypoint;
 
-    public float currentAlertness = 0.0f;
-    public float maxAlertness;
+    //Vision stuff
+    public float guardFov = 90.0f;
+    public float guardVisionRange = 8.0f;
+    public float maxAlertness = 100;
+
+    private bool canGuardSeePlayer;
+    private bool isGuardAtMaxAlertness;
+
+    //Hearing stuff
+    public Sound mostRecentSoundHeard;
+    public bool moveFromDefaultToSoundState = false;
+
 
     private void Awake()
     {
@@ -30,7 +40,7 @@ public class GuardStateManager : MonoBehaviour
         guardAnimator = GetComponent<Animator>();
         currentWaypoint = 0;
         guardSenses = new GuardSenses(this);
-        maxAlertness = guardSenses.maxAlertness;
+        //maxAlertness = guardSenses.maxAlertness;
     }
 
     // Start is called before the first frame update
@@ -47,7 +57,10 @@ public class GuardStateManager : MonoBehaviour
         //updateAlertness
         //checkForSound
         guardSenses.updateGuardSenses();
-        currentAlertness = guardSenses.GetGuardAlertness();
+        //currentAlertness = guardSenses.GetGuardAlertness();
+        canGuardSeePlayer = guardSenses.canGuardSeePlayer();
+        //print(canGuardSeePlayer);
+        isGuardAtMaxAlertness = guardSenses.isGuardAtMaxAlertness();
         currentState.updateState(this);
 
     }
@@ -62,6 +75,33 @@ public class GuardStateManager : MonoBehaviour
         currentState = state;
         state.enterState(this);
     }
+
+    public bool getIfGuardCanSeePlayer() 
+    {
+        return canGuardSeePlayer;
+    }
+
+    public bool getIfGuardShouldChasePlayer()
+    {
+        return isGuardAtMaxAlertness;
+    }
+
+    public bool getIfShouldReactToSound()
+    {
+        return moveFromDefaultToSoundState;
+    }
+
+    public void RespondToSound(Sound sound)
+    {
+        Debug.Log($"Guard heard sound at {sound.pos} with range {sound.range}");
+        mostRecentSoundHeard = sound;
+        moveFromDefaultToSoundState = true;
+        //move the state switch into a state
+        //SwitchState(hearNoiseState);
+    }
+
+
+
 
     
 }

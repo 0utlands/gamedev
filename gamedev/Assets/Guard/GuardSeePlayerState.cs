@@ -7,16 +7,16 @@ public class GuardSeePlayerState : GuardBaseState
     public override void enterState(GuardStateManager guard)
     {
         Debug.Log("SEE PLAYER STATE ENTERED");
+        guard.agent.speed = 1.0f;
     }
 
     public override void updateState(GuardStateManager guard)
     {
-        Debug.Log("SEE PLAYER STATE UPDATING");
-
+        
+        //the gaurd is alert to the player. set the guards Ai destination to be the players location, and make their speed a bit slower so they creep towards them.
         guard.agent.SetDestination(guard.guardSenses.player.transform.position);
-        guard.agent.speed = 1.0f;
-
-        if (guard.currentAlertness <= 0.0f)
+        //coudl move this to a fixedUpdateState function to make it a bit less cumbersome for computer
+        if (!guard.getIfGuardCanSeePlayer())
         {
             guard.SwitchState(guard.defaultState);
         }

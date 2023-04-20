@@ -8,18 +8,25 @@ public class GuardDefaultState : GuardBaseState
     public override void enterState(GuardStateManager guard)
     {
         UnityEngine.Debug.Log("I am in the default state");
-
+        guard.agent.speed = 2.0f;
         guard.agent.SetDestination(guard.waypoints[guard.currentWaypoint].transform.position);
     }
 
     public override void updateState(GuardStateManager guard)
     {
-        UnityEngine.Debug.Log("I am updating in the default state");
+        //UnityEngine.Debug.Log("I am updating in the default state");
 
-        //THIS LOGIC MUST BE MOVED INTO GUARD SENSES, AND RETURNED AS A BOOLEAN. OTHERWISE YOU WILL HAVE TO EDIT THIE EVERYWHERE IF THE CRITERIA FOR THE PLAYER BEING VISIBLE CHANGES,
-        if ((guard.currentAlertness < guard.maxAlertness) && (guard.currentAlertness > 0.0f)) 
+        if (guard.getIfGuardShouldChasePlayer())
+        {
+            guard.SwitchState(guard.chasePlayerState);
+        }
+        else if (guard.getIfGuardCanSeePlayer())
         {
             guard.SwitchState(guard.seePlayerState);
+        }
+        else if (guard.getIfShouldReactToSound())
+        {
+            guard.SwitchState(guard.hearNoiseState);
         }
          
         goToNextWaypoint(guard);
@@ -36,13 +43,13 @@ public class GuardDefaultState : GuardBaseState
         if (!isPathFinding && guard.agent.remainingDistance >= maxRadiusOfGuardToWaypoint)
         {
             guard.guardAnimator.SetBool("IsFindingPath", true);
-            Debug.Log(guard.agent.remainingDistance);
+            //Debug.Log(guard.agent.remainingDistance);
         }
 
         if (isPathFinding && guard.agent.remainingDistance < maxRadiusOfGuardToWaypoint)
         {
             guard.guardAnimator.SetBool("IsFindingPath", false);
-            Debug.Log(guard.agent.remainingDistance);
+            //Debug.Log(guard.agent.remainingDistance);
             guard.agent.SetDestination(guard.waypoints[guard.currentWaypoint].transform.position);
         }
 
