@@ -20,5 +20,9 @@ public class GuardSeePlayerState : GuardBaseState
         {
             guard.SwitchState(guard.defaultState);
         }
+        if (guard.getIfGuardShouldChasePlayer())
+        {
+            guard.SwitchState(guard.chasePlayerState);
+        }
     }
 }
