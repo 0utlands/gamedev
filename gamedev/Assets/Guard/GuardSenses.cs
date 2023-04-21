@@ -128,7 +128,7 @@ public class GuardSenses
         }
         else if (currentAlertness > 0)
         {
-            currentAlertness -= 1;
+            currentAlertness -= 0.5f;
         }
         //UnityEngine.Debug.Log("Current alertness: " + currentAlertness);
         alertBar.SetAlertness(currentAlertness);
