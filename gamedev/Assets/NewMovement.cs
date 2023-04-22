@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,8 @@ public class NewMovement : MonoBehaviour
     public bool hasItemOnHead = false;
 
     public float rotationSpeed;
+
+    [SerializeField] private float interactionRange;
 
     private void Awake()
     {
@@ -29,6 +32,7 @@ public class NewMovement : MonoBehaviour
         controls.Enable();
         controls.Player.Move.performed += OnMovementPerformed;
         controls.Player.Move.canceled += OnMovementCancelled;
+        controls.Player.Interact.performed += OnInteractionPerformed;
     }
 
     private void OnDisable()
@@ -72,6 +76,22 @@ public class NewMovement : MonoBehaviour
     private void OnMovementCancelled(InputAction.CallbackContext value)
     {
         moveVec = Vector3.zero;
+    }
+
+    private void OnInteractionPerformed(InputAction.CallbackContext value)
+    {
+        Debug.Log("Interaction time");
+        Collider[] col = Physics.OverlapSphere(this.transform.position, interactionRange);
+
+        for (int i = 0; i < col.Length; i++)
+        {
+            //Debug.Log(col[i]);
+            if (col[i].TryGetComponent(out IInteractable interactor))
+            {
+                Debug.Log("Interactor responding to interaction");
+                interactor.Interact();
+            }
+        }
     }
 
     void Interact()

@@ -5,13 +5,15 @@ using UnityEngine.AI;
 
 public class GuardStateManager : MonoBehaviour, SoundHearer
 {
-
+    //chaning guard states
     public GuardBaseState currentState;
     public GuardDefaultState defaultState = new GuardDefaultState();
     public GuardSeePlayerState seePlayerState = new GuardSeePlayerState();
     public GuardHearNoiseState hearNoiseState = new GuardHearNoiseState();
     public GuardChasePlayerState chasePlayerState = new GuardChasePlayerState();
 
+
+    //guard senses and going to waypoint
     public GuardSenses guardSenses;
 
     public NavMeshAgent agent;
