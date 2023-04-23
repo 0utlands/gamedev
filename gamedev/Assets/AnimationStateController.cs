@@ -22,7 +22,7 @@ public class AnimationStateController : MonoBehaviour
         if (!isWalking && moving)
         {
             animator.SetBool("IsWalking", true);
-            Debug.Log("W pressed in animatorstatecontroller");
+            //Debug.Log("W pressed in animatorstatecontroller");
         }
 
         if (isWalking && !moving)

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour
+public class Interactable : MonoBehaviour, IInteractable
 {
     public KeyCode interactKey = KeyCode.E;
     private bool isItemOnHead = false;
@@ -11,11 +11,33 @@ public class Interactable : MonoBehaviour
     public float distanceCutoff = 0.8f;
     GameObject player;
 
+    private bool interactedWith = false;
+
     // Start is called before the first frame update
     void Start()
     {
     }
 
+    public void Interact()
+    {
+        Debug.Log("Interracting with box!");
+        if (isItemOnHead)
+        {
+            Debug.Log("Dropping item");
+            dropItem();
+        }
+        else
+        {
+            Debug.Log("putting item on head");
+            if (Vector3.Distance(player.GetComponent<Transform>().position, transform.position) < distanceCutoff)
+            {
+                if (!player.GetComponent<NewMovement>().hasItemOnHead)
+                {
+                    putItemOnHead();
+                }
+            }
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -26,7 +48,12 @@ public class Interactable : MonoBehaviour
             transform.forward = player.GetComponent<Transform>().forward;
         }
 
-        if (Input.GetKeyDown(interactKey)) {
+
+
+        
+
+
+        /*if (Input.GetKeyDown(interactKey) || interactedWith) {
             if (isItemOnHead)
             {
                 dropItem();
@@ -38,19 +65,19 @@ public class Interactable : MonoBehaviour
                     }
                 }
             }
-        }
+        }*/
     }
 
     public void putItemOnHead() {
         isItemOnHead = true;
         player.GetComponent<NewMovement>().hasItemOnHead = true;
-        GetComponent<BoxCollider>().enabled = false;
+        //GetComponent<BoxCollider>().enabled = false;
     }
 
     public void dropItem() {
         isItemOnHead = false;
         player.GetComponent<NewMovement>().hasItemOnHead = false;
         GetComponent<Rigidbody>().velocity = new Vector3(0.0f,0.0f,0.0f);
-        GetComponent<BoxCollider>().enabled = true;
+        //GetComponent<BoxCollider>().enabled = true;
     }
 }
