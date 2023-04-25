@@ -66,8 +66,24 @@ public class GuardSenses
     public void fixedUpdateGuardAlertness() 
     {
         updateAlertnessUsingRateOfDiscovery();
-    }
+        Debug.Log("checking default time");
+        Collider[] col = Physics.OverlapSphere(guard.transform.position, guardVisionRange);
+        //need to find a way from transitioning from 
 
+
+        for (int i = 0; i < col.Length; i++)
+        {
+            //Debug.Log(col[i]);
+            if (col[i].TryGetComponent(out HasDefault objWithDefault))
+            {
+                Debug.Log("obj with default state responding to AI");
+                if (!objWithDefault.GetIfInDefaultState())
+                {
+                }
+            }
+        }
+        
+    }
 
     public float GetGuardAlertness()
     {
