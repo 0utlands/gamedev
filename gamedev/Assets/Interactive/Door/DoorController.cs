@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class DoorController : MonoBehaviour
+public class DoorController : MonoBehaviour, HasDefault
 {
     public int id;
     [SerializeField] private Animator m_animatior;
     private bool m_isOpen = false;
-    private int m_doorOpenHash;
-    private int m_doorCloseHash;
+    [SerializeField] private bool guardShouldMaintainState;
+    [SerializeField] private bool openByDefault; //this is used when making the map to set the default state of the door, allowing guards to react to this state.
+    [SerializeField] private GameObject[] linkedButtons;
     // Start is called before the first frame update
     private void Start()
     {   //we are subscribing the doorControllers "onDoorwayOpen" method to the gameEvent's "onDoorwayTriggerEnter" event. When this event happens, OnDoorwayOpen is called.
@@ -19,6 +21,23 @@ public class DoorController : MonoBehaviour
         //m_doorCloseHash = Animator.StringToHash("CloseDoor");
     }
     
+    public bool GetIfInDefaultState()
+    {
+        if (guardShouldMaintainState) 
+        {
+            Debug.Log($"Is this object in its default state: {m_isOpen == openByDefault}");
+            return m_isOpen == openByDefault;
+        } else
+        {
+            return true;
+        }
+    }
+
+    public GameObject[] GetInteractors()
+    {
+        return linkedButtons;
+    }
+
     //for opening and closing doorways using buttons.
     private void OnDoorwayToggle(int id)
     {
