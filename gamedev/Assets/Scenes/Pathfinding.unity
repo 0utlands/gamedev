@@ -2649,7 +2649,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 619439174}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc4a19da6ed7e6847876945c1b950dea, type: 3}
   m_Name: 
@@ -2668,6 +2668,7 @@ MonoBehaviour:
   guardVisionRange: 8
   maxAlertness: 100
   moveFromDefaultToSoundState: 0
+  objsToReturnToNormal: []
 --- !u!65 &619439187
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2687,8 +2688,35 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &619439189
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619439174}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &620574248
 GameObject:
   m_ObjectHideFlags: 0
@@ -4059,6 +4087,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   m_animatior: {fileID: 830729369}
+  guardShouldMaintainState: 0
+  openByDefault: 0
+  linkedButtons: []
 --- !u!65 &830729371
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4155,7 +4186,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 1
+  m_Carve: 0
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
@@ -5108,22 +5139,22 @@ PrefabInstance:
     - target: {fileID: 8619338778009177587, guid: 47a3741b253f088469eedd6d403dd89a,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9780163
+      value: 0.9780164
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177587, guid: 47a3741b253f088469eedd6d403dd89a,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.012324231
+      value: -0.012324232
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177587, guid: 47a3741b253f088469eedd6d403dd89a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.017311087
+      value: -0.017311089
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177587, guid: 47a3741b253f088469eedd6d403dd89a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.20744275
+      value: -0.20744276
       objectReference: {fileID: 0}
     - target: {fileID: 8619338778009177589, guid: 47a3741b253f088469eedd6d403dd89a,
         type: 3}
@@ -5366,6 +5397,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 619439187}
+    - targetCorrespondingSourceObject: {fileID: 8619338778009079851, guid: 47a3741b253f088469eedd6d403dd89a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 619439189}
   m_SourcePrefab: {fileID: 100100000, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
 --- !u!1 &969534620
 GameObject:
@@ -6206,7 +6241,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1012005266}
   m_LocalRotation: {x: -0, y: -0.9999958, z: -0, w: -0.002911294}
-  m_LocalPosition: {x: 0.812, y: 0.035, z: 0.43}
+  m_LocalPosition: {x: -4.845, y: 0.035, z: 8.19}
   m_LocalScale: {x: 0.16667128, y: 0.16666667, z: 0.9998293}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9547,7 +9582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 430882, guid: e32f6a0e129409b49ab1ada5d1090113, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.33227122
+      value: 1.13
       objectReference: {fileID: 0}
     - target: {fileID: 430882, guid: e32f6a0e129409b49ab1ada5d1090113, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10077,7 +10112,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1516014533}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.1022215, y: 14.68072, z: -13.524878}
+  m_LocalPosition: {x: -21.42, y: 14.68072, z: -5.72}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -11007,6 +11042,7 @@ MonoBehaviour:
   guardVisionRange: 8
   maxAlertness: 100
   moveFromDefaultToSoundState: 0
+  objsToReturnToNormal: []
 --- !u!65 &1642591721
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11129,6 +11165,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   m_animatior: {fileID: 1676999960}
+  guardShouldMaintainState: 1
+  openByDefault: 1
+  linkedButtons:
+  - {fileID: 1012005266}
+  - {fileID: 1341975891}
 --- !u!65 &1676999962
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12000,7 +12041,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 1
+  m_Carve: 0
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
@@ -12051,6 +12092,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   m_animatior: {fileID: 1835567974}
+  guardShouldMaintainState: 0
+  openByDefault: 0
+  linkedButtons: []
 --- !u!65 &1835567976
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13397,7 +13441,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2078333437}
   m_LocalRotation: {x: 0.6429428, y: -0, z: -0, w: 0.76591426}
-  m_LocalPosition: {x: -8.05, y: 17.994, z: 0.74}
+  m_LocalPosition: {x: -12.16, y: 17.994, z: 0.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13454,7 +13498,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2078333437}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f5cc360ee04b5448897b5ef6f990a0a, type: 3}
   m_Name: 
