@@ -67,8 +67,6 @@ public class GuardSenses
     {
         updateAlertnessUsingRateOfDiscovery();
         updateWhetherObjInWrongState(guardStateManager);
-
-
     }
 
     public void updateWhetherObjInWrongState(GuardStateManager guardStateManager)

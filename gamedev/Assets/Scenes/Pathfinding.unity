@@ -11220,7 +11220,7 @@ GameObject:
   - component: {fileID: 1676999958}
   m_Layer: 0
   m_Name: Door
-  m_TagString: Environment
+  m_TagString: HasDefault
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
