@@ -94,9 +94,20 @@ public class GuardSenses
 
                     if (objIsVisible)
                     {
-                        objsToReturnToNormal.Add(col[i].gameObject);
-                        guardStateManager.objToReturnToNormal = col[i].gameObject;
-                        //GameObject[] interactors = objWithDefault.GetInteractors();
+
+                        RaycastHit hit;
+                        Ray landingRay = new Ray(guardHead.transform.position, (col[i].transform.position - guardHead.transform.position).normalized);
+
+                        //currently we are still raycasting if the guard is looking at a wall which is within 8 units. this could be better if we did an if checking if the PLAYEr was within 8 units instead.
+                        if (Physics.Raycast(landingRay, out hit, 8.0f))
+                        {
+                            if (hit.collider.tag == "HasDefault")//make this more efficient by adding whether player head is visible to the if somewhere
+                            {
+                                objsToReturnToNormal.Add(col[i].gameObject);
+                                guardStateManager.objToReturnToNormal = col[i].gameObject;
+                                //GameObject[] interactors = objWithDefault.GetInteractors();
+                            }                   
+                        }                      
                     }
                 }
             }

@@ -14,21 +14,33 @@ public class GuardMaintainMapState : GuardBaseState
         guard.agent.speed = 3.0f;
         UnityEngine.Debug.Log("Entering maintain map state!");
         UnityEngine.Debug.Log("Object to maintain:" + guard.objToReturnToNormal.name);
+
+        //check if the object it is trying tos wtich back to default subscribes to the hasdefault interface
         if (guard.objToReturnToNormal.TryGetComponent(out HasDefault objWithDefault))
         {
+
+            //find all the buttons / things that toggle the object to default. The code below loops
+            //through these buttons, and finds the closest one to the guard. It then sets the guard's
+            //destination to that button, and when it reaches it, it will switch the object back to default.
+
             interactorsToCheck = objWithDefault.GetInteractors();
             Vector3 closestInteractor = new Vector3(99999,99999,99999);
             float closestDistance = 99999999;
 
+            //loop through the buttons/interactors
             foreach (GameObject interactor in interactorsToCheck) 
             { 
                 NavMeshPath path = new NavMeshPath();
                 guard.agent.CalculatePath(interactor.transform.position, path);
+
+                //if the guard cant get to this button, ignore it
                 if(path.status == NavMeshPathStatus.PathPartial)
                 {
                     UnityEngine.Debug.Log("Partial path.");
-                } else
+                } 
+                else
                 {
+                    //if the button is the closest button, set this as the new closest button.
                     guard.agent.SetDestination(interactor.transform.position);
                     UnityEngine.Debug.Log("Remaining distance: " + RemainingDistance(guard.agent.path.corners));
                     UnityEngine.Debug.Log("Remaining distance: " + guard.agent.remainingDistance);
@@ -66,9 +78,23 @@ public class GuardMaintainMapState : GuardBaseState
             }
         }
 
+
         if (guard.objToReturnToNormal == null)
         {
             guard.SwitchState(guard.defaultState);
+        }
+
+        if (guard.getIfGuardShouldChasePlayer())
+        {
+            guard.SwitchState(guard.chasePlayerState);
+        }
+        else if (guard.getIfGuardCanSeePlayer())
+        {
+            guard.SwitchState(guard.seePlayerState);
+        }
+        else if (guard.getIfShouldReactToSound())
+        {
+            guard.SwitchState(guard.hearNoiseState);
         }
     }
 
