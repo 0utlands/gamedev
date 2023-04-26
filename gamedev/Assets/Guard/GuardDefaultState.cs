@@ -28,6 +28,10 @@ public class GuardDefaultState : GuardBaseState
         {
             guard.SwitchState(guard.hearNoiseState);
         }
+        else if (guard.objToReturnToNormal != null) 
+        { 
+            guard.SwitchState(guard.maintainMapState);
+        }
          
         goToNextWaypoint(guard);
         //guard.alertness = helper.updateAlertness(guard)

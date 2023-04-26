@@ -10,7 +10,7 @@ public class DoorController : MonoBehaviour, HasDefault
     private bool m_isOpen = false;
     [SerializeField] private bool guardShouldMaintainState;
     [SerializeField] private bool openByDefault; //this is used when making the map to set the default state of the door, allowing guards to react to this state.
-    [SerializeField] private GameObject[] linkedButtons;
+    [SerializeField] private List<GameObject> linkedButtons;
     // Start is called before the first frame update
     private void Start()
     {   //we are subscribing the doorControllers "onDoorwayOpen" method to the gameEvent's "onDoorwayTriggerEnter" event. When this event happens, OnDoorwayOpen is called.
@@ -25,7 +25,7 @@ public class DoorController : MonoBehaviour, HasDefault
     {
         if (guardShouldMaintainState) 
         {
-            Debug.Log($"Is this object in its default state: {m_isOpen == openByDefault}");
+            //Debug.Log($"Is this object in its default state: {m_isOpen == openByDefault}");
             return m_isOpen == openByDefault;
         } else
         {
@@ -33,7 +33,7 @@ public class DoorController : MonoBehaviour, HasDefault
         }
     }
 
-    public GameObject[] GetInteractors()
+    public List<GameObject> GetInteractors()
     {
         return linkedButtons;
     }

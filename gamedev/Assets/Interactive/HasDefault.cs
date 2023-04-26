@@ -13,8 +13,8 @@ public interface HasDefault
     }
 
     //should be overriden in doors / things with hasdefault, to return all the gameobjects which can be interacted with to change the state of the thing.
-    public GameObject[] GetInteractors()
+    public List<GameObject> GetInteractors()
     {
-        return new GameObject[0];
+        return new List<GameObject>();
     }
 }

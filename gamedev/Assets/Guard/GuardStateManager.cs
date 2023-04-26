@@ -11,6 +11,7 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
     public GuardSeePlayerState seePlayerState = new GuardSeePlayerState();
     public GuardHearNoiseState hearNoiseState = new GuardHearNoiseState();
     public GuardChasePlayerState chasePlayerState = new GuardChasePlayerState();
+    public GuardMaintainMapState maintainMapState = new GuardMaintainMapState();
 
 
     //guard senses and going to waypoint
@@ -35,6 +36,10 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
     public Sound mostRecentSoundHeard;
     public bool moveFromDefaultToSoundState = false;
 
+    //returning map to default state stuff
+    public bool isMapOutOfDefault = false;
+    public GameObject[] objsToReturnToNormal;
+    public GameObject objToReturnToNormal;
 
     private void Awake()
     {
@@ -69,7 +74,7 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
 
     private void FixedUpdate()
     {
-        guardSenses.fixedUpdateGuardAlertness();
+        guardSenses.fixedUpdateGuardAlertness(this);
     }
 
     public void SwitchState(GuardBaseState state)
