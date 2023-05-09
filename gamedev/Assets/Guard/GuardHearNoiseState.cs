@@ -12,6 +12,7 @@ public class GuardHearNoiseState : GuardBaseState
         UnityEngine.Debug.Log("Guard hearing updating, going to " + guard.mostRecentSoundHeard.pos);
         guard.agent.SetDestination(guard.mostRecentSoundHeard.pos);
         guard.moveFromDefaultToSoundState = false;
+        guard.agent.isStopped = false;
     }
 
     public override void updateState(GuardStateManager guard)

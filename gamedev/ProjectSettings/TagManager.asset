@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Environment
   - HasDefault
+  - Guard
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - 

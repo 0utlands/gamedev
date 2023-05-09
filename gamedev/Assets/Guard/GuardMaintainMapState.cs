@@ -12,6 +12,7 @@ public class GuardMaintainMapState : GuardBaseState
     public override void enterState(GuardStateManager guard)
     {
         guard.agent.speed = 3.0f;
+        guard.agent.isStopped = false;
         UnityEngine.Debug.Log("Entering maintain map state!");
         UnityEngine.Debug.Log("Object to maintain:" + guard.objToReturnToNormal.name);
 

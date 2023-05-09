@@ -8,6 +8,7 @@ public class GuardSeePlayerState : GuardBaseState
     {
         Debug.Log("SEE PLAYER STATE ENTERED");
         guard.agent.speed = 1.0f;
+        guard.agent.isStopped = false;
     }
 
     public override void updateState(GuardStateManager guard)

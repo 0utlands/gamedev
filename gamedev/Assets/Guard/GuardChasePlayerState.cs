@@ -8,13 +8,15 @@ public class GuardChasePlayerState : GuardBaseState
     {
         Debug.Log("CHASING PLAYER STATE ENTERED");
         guard.agent.speed = 3.0f;
+        guard.agent.isStopped = false;
     }
 
     public override void updateState(GuardStateManager guard)
     {
-        if (!guard.getIfGuardShouldChasePlayer())
+        guard.agent.SetDestination(guard.guardSenses.player.transform.position);
+        if (!guard.getIfGuardCanSeePlayer())
         {
-            guard.SwitchState(guard.seePlayerState);
+            guard.SwitchState(guard.defaultState);
         }
     }
 }
