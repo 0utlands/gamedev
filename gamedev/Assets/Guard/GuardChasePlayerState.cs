@@ -13,6 +13,13 @@ public class GuardChasePlayerState : GuardBaseState
 
     public override void updateState(GuardStateManager guard)
     {
+
+        if (guard.getIfGuardIsTouchingPlayer())
+        {
+            Debug.Log("Caught the player!");
+            GameObject.FindObjectOfType<GameManager>().EndGame();
+        }
+
         guard.agent.SetDestination(guard.guardSenses.player.transform.position);
         if (!guard.getIfGuardCanSeePlayer())
         {

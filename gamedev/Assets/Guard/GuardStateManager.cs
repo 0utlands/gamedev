@@ -41,6 +41,9 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
     public GameObject[] objsToReturnToNormal;
     public GameObject objToReturnToNormal;
 
+    //stuff for if the guard catches player
+    private bool isGuardTouchingPlayer = false;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -98,6 +101,12 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
         return moveFromDefaultToSoundState;
     }
 
+    public bool getIfGuardIsTouchingPlayer()
+    {
+        return isGuardTouchingPlayer;
+    }
+
+
     public void RespondToSound(Sound sound)
     {
         Debug.Log($"Guard heard sound at {sound.pos} with range {sound.range}");
@@ -107,7 +116,17 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
         //SwitchState(hearNoiseState);
     }
 
-
+    //check if the guard is colliding with the player
+    void OnCollisionEnter(Collision collisionInfo)
+    {
+        if (collisionInfo.collider.tag == "Player")
+        {
+            isGuardTouchingPlayer = true;
+        } else
+        {
+            isGuardTouchingPlayer = false;
+        }
+    }
 
 
     

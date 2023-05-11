@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class NewMovement : MonoBehaviour
 {
@@ -10,9 +11,10 @@ public class NewMovement : MonoBehaviour
     private PlayerInput controls;
     private Vector3 moveVec = Vector3.zero;//this is a vec3 because we are moving in the x and z axis
     private CharacterController charController;
-    private float movementSpeed = 0.1f;
+    [SerializeField] private float movementSpeed = 0.05f;
+    [SerializeField] private float sprintSpeed = 0.1f;
     public bool hasItemOnHead = false;
-
+    private bool isSprinting = false;
     public float rotationSpeed;
 
     [SerializeField] private float interactionRange;
@@ -33,6 +35,8 @@ public class NewMovement : MonoBehaviour
         controls.Player.Move.performed += OnMovementPerformed;
         controls.Player.Move.canceled += OnMovementCancelled;
         controls.Player.Interact.performed += OnInteractionPerformed;
+        controls.Player.SprintStart.performed += OnSprintStartPerformed;
+        controls.Player.SprintEnd.performed += OnSprintEndPerformed;
     }
 
     private void OnDisable()
@@ -46,7 +50,15 @@ public class NewMovement : MonoBehaviour
     {
         //Debug.Log(moveVec);
         //move the character in the direction specified by WASD
-        charController.Move(moveVec * movementSpeed);
+        if (isSprinting)
+        {
+            charController.Move(moveVec * sprintSpeed);
+        } else
+        {
+            charController.Move(moveVec * movementSpeed);
+        }
+
+        
 
         //if we are moving
         if(moveVec != Vector3.zero)
@@ -92,6 +104,18 @@ public class NewMovement : MonoBehaviour
                 interactor.Interact();
             }
         }
+    }
+
+    private void OnSprintStartPerformed(InputAction.CallbackContext value)
+    {
+        Debug.Log("Sprint time");
+        isSprinting = true;
+    }
+
+    private void OnSprintEndPerformed(InputAction.CallbackContext value)
+    {
+        Debug.Log("Sprint stop time");
+        isSprinting = false;
     }
 
     void Interact()

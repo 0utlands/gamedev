@@ -101,7 +101,7 @@ public class GuardDefaultState : GuardBaseState
 
         if (isAnotherGuardGoingToMyWayPoint)
         {
-            guard.agent.speed = 0.1f;
+            guard.agent.speed = 1.0f;
         }
         else
         {

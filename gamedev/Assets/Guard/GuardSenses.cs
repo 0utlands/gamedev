@@ -17,7 +17,7 @@ public class GuardSenses
     private GameObject playerLeftArm;
 
     private GameObject guardHead;
-    private GameObject guard;
+    public GameObject guard;
 
     private float currentAlertness;
     

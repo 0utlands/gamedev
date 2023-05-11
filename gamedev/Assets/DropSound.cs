@@ -34,5 +34,10 @@ public class NewBehaviourScript : MonoBehaviour
 
 
         }
+
+        else
+        {
+            print("No sound :(");
+        }
     }
 }
