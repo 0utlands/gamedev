@@ -6,8 +6,11 @@ public class DoorButton : MonoBehaviour, IInteractable
 {
     
     [SerializeField] private int id;
+    [SerializeField] private AudioSource buttonSound;
     public void Interact()
     {
+        
+        buttonSound.Play();
         
         
         GameEvents.instance.DoorwayToggle(id);
