@@ -12,6 +12,7 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
     public GuardHearNoiseState hearNoiseState = new GuardHearNoiseState();
     public GuardChasePlayerState chasePlayerState = new GuardChasePlayerState();
     public GuardMaintainMapState maintainMapState = new GuardMaintainMapState();
+    public GuardFeelsPlayerState feelsPlayerState = new GuardFeelsPlayerState();
 
 
     //guard senses and going to waypoint
@@ -41,8 +42,14 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
     public GameObject[] objsToReturnToNormal;
     public GameObject objToReturnToNormal;
 
-    //stuff for if the guard catches player
+    //stuff for if the player touches guard
     private bool isGuardTouchingPlayer = false;
+    public bool isGuardBeingTouchedFromBehind = false;
+    public GameObject playerNotNullWhenTouched = null;
+
+    public AudioSource huhSound;
+
+    
 
     private void Awake()
     {
@@ -106,6 +113,11 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
         return isGuardTouchingPlayer;
     }
 
+    public bool getIfGuardIsBeingTouchedFromBehind()
+    {
+        return isGuardBeingTouchedFromBehind;
+    }
+
 
     public void RespondToSound(Sound sound)
     {
@@ -122,12 +134,32 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
         if (collisionInfo.collider.tag == "Player")
         {
             isGuardTouchingPlayer = true;
+            //playerNotNullWhenTouched = guardSenses.player;
+            print("Guard is touching player");
         } else
         {
             isGuardTouchingPlayer = false;
         }
     }
 
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.tag == "Player")
+        {
 
-    
+            if (isGuardBeingTouchedFromBehind == false)
+            {
+                isGuardBeingTouchedFromBehind = true;
+                playerNotNullWhenTouched = guardSenses.player;
+                print("Guard is being touched by player");
+            }
+        }
+        else
+        {
+            isGuardBeingTouchedFromBehind = false;
+        }
+    }
+
+
+
 }
