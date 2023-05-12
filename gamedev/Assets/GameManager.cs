@@ -16,8 +16,17 @@ public class GameManager : MonoBehaviour
     private Volume theVolume;
     private ChromaticAberration theChromaticAberration;
     private FilmGrain theFilmGrain;
+    private Vignette theVignette;
     [SerializeField] private float guardAlertness = 100;
     private List<GuardStateManager> guardStateManagers = new List<GuardStateManager>();
+
+    public AudioSource stinger1;
+    public AudioSource stinger2;
+    public AudioSource suspenseLoop;
+
+    private bool shouldStinger2Play = true;
+
+    private float previousAlertness = 0;
 
     public void EndGame()
     {
@@ -40,7 +49,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    void Start()
+    private void Start()
     {
         GameObject[] guardObjs = GameObject.FindGameObjectsWithTag("Guard");
         foreach (GameObject guardObj in guardObjs)
@@ -51,9 +60,13 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        theVolume = GameObject.FindObjectOfType<GameManager>().GetComponent<Volume>();
+        theVolume = GameObject.FindObjectOfType<Volume>();
+        //theVolume = GetComponent<Volume>();
         theVolume.profile.TryGet(out theFilmGrain);
         theVolume.profile.TryGet(out theChromaticAberration);
+        theVolume.profile.TryGet(out theVignette);
+
+        suspenseLoop.Play();
     }
 
     void Update()
@@ -69,12 +82,34 @@ public class GameManager : MonoBehaviour
         }
         alertness = alertnessThisFrame;
 
+
+        if(alertness <= 0)
+        {
+            shouldStinger2Play = true;
+        }
+
+        if(alertness > 0 && previousAlertness <=0) 
+        {
+            stinger1.Play();
+        }
+
+        if (alertness >= 100 && previousAlertness < 100 && shouldStinger2Play)
+        {
+            stinger2.Play();
+            shouldStinger2Play = false;
+        }
+
+        previousAlertness = alertness;
+
+
         Debug.Log("Alertness:" + alertness);
         Debug.Log("intsinsity:" + (alertness / guardAlertness));
 
 
         theChromaticAberration.intensity.value = alertness / guardAlertness;
         theFilmGrain.intensity.value = alertness / guardAlertness;
+        theVignette.intensity.value = alertness / guardAlertness / 2;
+        suspenseLoop.volume = alertness / guardAlertness;
     }
 
 
