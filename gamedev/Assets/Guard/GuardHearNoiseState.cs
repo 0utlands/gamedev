@@ -11,7 +11,7 @@ public class GuardHearNoiseState : GuardBaseState
         guard.agent.speed = 2.0f;
         UnityEngine.Debug.Log("Guard hearing updating, going to " + guard.mostRecentSoundHeard.pos);
         guard.agent.SetDestination(guard.mostRecentSoundHeard.pos);
-        guard.moveFromDefaultToSoundState = false;
+        
         guard.agent.isStopped = false;
     }
 
@@ -31,6 +31,7 @@ public class GuardHearNoiseState : GuardBaseState
         else if (guard.agent.remainingDistance < 0.5) //maybe work out if we want the AI returning to investigating the sound if teyve seen the player?
         {
             Debug.Log("Swtiching state");
+            guard.moveFromDefaultToSoundState = false;
             guard.SwitchState(guard.defaultState);
         }
     }
