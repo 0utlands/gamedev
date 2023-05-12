@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,6 +25,8 @@ public class GameManager : MonoBehaviour
     public AudioSource stinger1;
     public AudioSource stinger2;
     public AudioSource suspenseLoop;
+    public int levelNumber;
+    private GameObject menu;
 
     private bool shouldStinger2Play = true;
 
@@ -42,7 +46,30 @@ public class GameManager : MonoBehaviour
 
     public void CompleteLevel()
     {
-        Debug.Log("Level complete!");
+        
+        menu.SetActive(true);
+        GameObject mainMenu = menu.transform.GetChild(1).gameObject;
+        GameObject levelSelect = menu.transform.GetChild(2).gameObject;
+        GameObject levelComplete = menu.transform.GetChild(3).gameObject;
+        mainMenu.SetActive(false);
+        levelSelect.SetActive(false);
+        levelComplete.SetActive(true);
+        GameObject levelCompleteText = levelComplete.transform.GetChild(1).gameObject;
+        GameObject NextLevelUnlockedText = levelComplete.transform.GetChild(2).gameObject;
+
+        levelCompleteText.GetComponent<TextMeshProUGUI>().text = "Level " + levelNumber + " Complete!";
+        if (levelNumber < 4)
+        {
+            NextLevelUnlockedText.GetComponent<TextMeshProUGUI>().text = "Level " + (levelNumber + 1) + " Unlocked!";
+        }
+        else
+        {
+            NextLevelUnlockedText.GetComponent<TextMeshProUGUI>().text = "All Levels Unlocked!";
+        }
+        levelSelect.transform.GetChild(1+levelNumber).GetComponent<Button>().interactable = true;
+
+
+        SceneManager.LoadScene(0);
     }
     void Restart()
     { //reload the active scene
@@ -51,6 +78,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        menu = GameObject.Find("Menu");
+        menu.SetActive(false);
+
         GameObject[] guardObjs = GameObject.FindGameObjectsWithTag("Guard");
         foreach (GameObject guardObj in guardObjs)
         {

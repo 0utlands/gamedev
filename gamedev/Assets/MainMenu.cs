@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
-    public void LevelSelect() {
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    public void LevelSelect(int level) {
+        //GameObject.Find("Menu").SetActive(false);
+        SceneManager.LoadScene(level);
     }
 
     public void QuitGame() {
