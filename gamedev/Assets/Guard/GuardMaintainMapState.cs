@@ -13,8 +13,8 @@ public class GuardMaintainMapState : GuardBaseState
     {
         guard.agent.speed = 3.0f;
         guard.agent.isStopped = false;
-        UnityEngine.Debug.Log("Entering maintain map state!");
-        UnityEngine.Debug.Log("Object to maintain:" + guard.objToReturnToNormal.name);
+        //UnityEngine.Debug.Log("Entering maintain map state!");
+        //UnityEngine.Debug.Log("Object to maintain:" + guard.objToReturnToNormal.name);
 
         //check if the object it is trying tos wtich back to default subscribes to the hasdefault interface
         if (guard.objToReturnToNormal.TryGetComponent(out HasDefault objWithDefault))
@@ -37,14 +37,14 @@ public class GuardMaintainMapState : GuardBaseState
                 //if the guard cant get to this button, ignore it
                 if(path.status == NavMeshPathStatus.PathPartial)
                 {
-                    UnityEngine.Debug.Log("Partial path.");
+                    //UnityEngine.Debug.Log("Partial path.");
                 } 
                 else
                 {
                     //if the button is the closest button, set this as the new closest button.
                     guard.agent.SetDestination(interactor.transform.position);
-                    UnityEngine.Debug.Log("Remaining distance: " + RemainingDistance(guard.agent.path.corners));
-                    UnityEngine.Debug.Log("Remaining distance: " + guard.agent.remainingDistance);
+                    //UnityEngine.Debug.Log("Remaining distance: " + RemainingDistance(guard.agent.path.corners));
+                    //UnityEngine.Debug.Log("Remaining distance: " + guard.agent.remainingDistance);
                     if (RemainingDistance(guard.agent.path.corners) < closestDistance)
                     {
                         if (interactor.TryGetComponent(out IInteractable interactivePart))

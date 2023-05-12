@@ -29,7 +29,7 @@ public class NewBehaviourScript : MonoBehaviour
             impactSound.Play();
             var sound = new Sound(transform.position, soundRange);
             Sounds.MakeSound(sound);
-            print($"Sound: with sound pos {sound.pos} and range {sound.range}");
+            //print($"Sound: with sound pos {sound.pos} and range {sound.range}");
             //and ends here...
 
 
@@ -37,7 +37,7 @@ public class NewBehaviourScript : MonoBehaviour
 
         else
         {
-            print("No sound :(");
+            //print("No sound :(");
         }
     }
 }

@@ -9,10 +9,10 @@ public class GuardDefaultState : GuardBaseState
     private float maxRadiusOfGuardToWaypoint = 2.0f;
     public override void enterState(GuardStateManager guard)
     {
-        UnityEngine.Debug.Log("I am in the default state");
+        //UnityEngine.Debug.Log("I am in the default state");
         guard.agent.speed = 2.0f;
         guard.agent.SetDestination(guard.waypoints[guard.currentWaypoint].transform.position);
-        UnityEngine.Debug.Log(this.GetType().Name);
+        //UnityEngine.Debug.Log(this.GetType().Name);
     }
 
     public override void updateState(GuardStateManager guard)

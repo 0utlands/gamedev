@@ -7,9 +7,9 @@ public class GuardHearNoiseState : GuardBaseState
 {
     public override void enterState(GuardStateManager guard)
     {
-        Debug.Log("HEARING SOUND STATE ENTERED");
+        //Debug.Log("HEARING SOUND STATE ENTERED");
         guard.agent.speed = 2.0f;
-        UnityEngine.Debug.Log("Guard hearing updating, going to " + guard.mostRecentSoundHeard.pos);
+        //UnityEngine.Debug.Log("Guard hearing updating, going to " + guard.mostRecentSoundHeard.pos);
         guard.agent.SetDestination(guard.mostRecentSoundHeard.pos);
         
         guard.agent.isStopped = false;

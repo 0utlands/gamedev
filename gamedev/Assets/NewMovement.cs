@@ -103,9 +103,6 @@ public class NewMovement : MonoBehaviour
                 interactor.Interact();
                 objectOnHead = null;
             }
-
-
-
         }
         else
         {
@@ -115,8 +112,9 @@ public class NewMovement : MonoBehaviour
                 //Debug.Log(col[i]);
                 if (col[i].TryGetComponent(out IInteractable interactor))
                 {
-                    Debug.Log("Interactor responding to interaction");
+                    //Debug.Log("Interactor responding to interaction");
                     interactor.Interact();
+                    objectOnHead = col[i].gameObject;
                 }
             }
         }
@@ -124,18 +122,18 @@ public class NewMovement : MonoBehaviour
 
     private void OnSprintStartPerformed(InputAction.CallbackContext value)
     {
-        Debug.Log("Sprint time");
+        //Debug.Log("Sprint time");
         isSprinting = true;
     }
 
     private void OnSprintEndPerformed(InputAction.CallbackContext value)
     {
-        Debug.Log("Sprint stop time");
+        //Debug.Log("Sprint stop time");
         isSprinting = false;
     }
 
     void Interact()
     {
-        Debug.Log("Interacting");
+        //Debug.Log("Interacting");
     }
 }
