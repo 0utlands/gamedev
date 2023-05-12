@@ -17,6 +17,7 @@ public class NewMovement : MonoBehaviour
     private bool isSprinting = false;
     public float rotationSpeed;
 
+    private GameObject objectOnHead;
     [SerializeField] private float interactionRange;
 
     private void Awake()
@@ -95,13 +96,28 @@ public class NewMovement : MonoBehaviour
         Debug.Log("Interaction time");
         Collider[] col = Physics.OverlapSphere(this.transform.position, interactionRange);
 
-        for (int i = 0; i < col.Length; i++)
+        if (objectOnHead != null)
         {
-            //Debug.Log(col[i]);
-            if (col[i].TryGetComponent(out IInteractable interactor))
+            if (objectOnHead.TryGetComponent(out IInteractable interactor))
             {
-                Debug.Log("Interactor responding to interaction");
                 interactor.Interact();
+                objectOnHead = null;
+            }
+
+
+
+        }
+        else
+        {
+
+            for (int i = 0; i < col.Length; i++)
+            {
+                //Debug.Log(col[i]);
+                if (col[i].TryGetComponent(out IInteractable interactor))
+                {
+                    Debug.Log("Interactor responding to interaction");
+                    interactor.Interact();
+                }
             }
         }
     }
