@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731713, g: 0.13414738, b: 0.121078536, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2787,6 +2787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 2
+  buttonSound: {fileID: 0}
 --- !u!65 &562147543
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4380,6 +4381,9 @@ MonoBehaviour:
   isMapOutOfDefault: 0
   objsToReturnToNormal: []
   objToReturnToNormal: {fileID: 0}
+  isGuardBeingTouchedFromBehind: 0
+  playerNotNullWhenTouched: {fileID: 0}
+  huhSound: {fileID: 0}
 --- !u!208 &800193113
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -5439,6 +5443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 2
+  buttonSound: {fileID: 0}
 --- !u!65 &999887493
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6753,6 +6758,9 @@ MonoBehaviour:
   isMapOutOfDefault: 0
   objsToReturnToNormal: []
   objToReturnToNormal: {fileID: 0}
+  isGuardBeingTouchedFromBehind: 0
+  playerNotNullWhenTouched: {fileID: 0}
+  huhSound: {fileID: 0}
 --- !u!208 &1551632041
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -7168,7 +7176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 455826, guid: 01d0598bc959e1744a433317fbb1b0c7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.53
+      value: -17.999634
       objectReference: {fileID: 0}
     - target: {fileID: 455826, guid: 01d0598bc959e1744a433317fbb1b0c7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8131,6 +8139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 2
+  buttonSound: {fileID: 0}
 --- !u!65 &1845097409
 BoxCollider:
   m_ObjectHideFlags: 0

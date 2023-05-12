@@ -4388,7 +4388,7 @@ MonoBehaviour:
   stinger1: {fileID: 700371451}
   stinger2: {fileID: 700371450}
   suspenseLoop: {fileID: 700371452}
-  levelNumber: 5
+  levelNumber: 2
 --- !u!82 &700371450
 AudioSource:
   m_ObjectHideFlags: 0

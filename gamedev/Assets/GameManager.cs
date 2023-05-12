@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     private bool shouldStinger2Play = true;
 
     private float previousAlertness = 0;
+    bool levelCompleted = false;
 
     public void EndGame()
     {
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     public void CompleteLevel()
     {
-        
+        levelCompleted = true;
         menu.SetActive(true);
         GameObject mainMenu = menu.transform.GetChild(1).gameObject;
         GameObject levelSelect = menu.transform.GetChild(2).gameObject;
@@ -69,17 +70,25 @@ public class GameManager : MonoBehaviour
         levelSelect.transform.GetChild(1+levelNumber).GetComponent<Button>().interactable = true;
 
 
-        SceneManager.LoadScene(0);
+        //SceneManager.LoadScene(0);
     }
     void Restart()
     { //reload the active scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //menu.SetActive(true);
+        if(!levelCompleted)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     private void Start()
     {
-        menu = GameObject.Find("Menu");
+        menu = GameObject.Find("MenuAccess").GetComponent<Menu>().menu;
+        Debug.Log("gamemanager starting level: " + levelNumber);
+        //menu = GameObject.Find("Menu");
         menu.SetActive(false);
+
+
 
         GameObject[] guardObjs = GameObject.FindGameObjectsWithTag("Guard");
         foreach (GameObject guardObj in guardObjs)
@@ -101,45 +110,60 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        float alertnessThisFrame = 0;
-        foreach (GuardStateManager guard in guardStateManagers)
+
+        /*if(menu.activeSelf == true)
         {
-            float thisGuardsAlertness = guard.guardSenses.GetGuardAlertness();
-            if (thisGuardsAlertness > alertnessThisFrame)
+            menu.SetActive(false);
+        }*/
+
+        if (!levelCompleted)
+        {
+            float alertnessThisFrame = 0;
+            foreach (GuardStateManager guard in guardStateManagers)
             {
-                alertnessThisFrame = thisGuardsAlertness;
+                float thisGuardsAlertness = guard.guardSenses.GetGuardAlertness();
+                if (thisGuardsAlertness > alertnessThisFrame)
+                {
+                    alertnessThisFrame = thisGuardsAlertness;
+                }
             }
+            alertness = alertnessThisFrame;
+
+
+            if (alertness <= 0)
+            {
+                shouldStinger2Play = true;
+            }
+
+            if (alertness > 0 && previousAlertness <= 0)
+            {
+                stinger1.Play();
+            }
+
+            if (alertness >= 100 && previousAlertness < 100 && shouldStinger2Play)
+            {
+                stinger2.Play();
+                shouldStinger2Play = false;
+            }
+
+            previousAlertness = alertness;
+
+
+            Debug.Log("Alertness:" + alertness);
+            Debug.Log("intsinsity:" + (alertness / guardAlertness));
+
+
+            theChromaticAberration.intensity.value = alertness / guardAlertness;
+            theFilmGrain.intensity.value = alertness / guardAlertness;
+            theVignette.intensity.value = alertness / guardAlertness / 2;
+            suspenseLoop.volume = alertness / guardAlertness;
         }
-        alertness = alertnessThisFrame;
-
-
-        if(alertness <= 0)
+        else
         {
-            shouldStinger2Play = true;
+            suspenseLoop.volume = 0;
         }
 
-        if(alertness > 0 && previousAlertness <=0) 
-        {
-            stinger1.Play();
-        }
-
-        if (alertness >= 100 && previousAlertness < 100 && shouldStinger2Play)
-        {
-            stinger2.Play();
-            shouldStinger2Play = false;
-        }
-
-        previousAlertness = alertness;
-
-
-        Debug.Log("Alertness:" + alertness);
-        Debug.Log("intsinsity:" + (alertness / guardAlertness));
-
-
-        theChromaticAberration.intensity.value = alertness / guardAlertness;
-        theFilmGrain.intensity.value = alertness / guardAlertness;
-        theVignette.intensity.value = alertness / guardAlertness / 2;
-        suspenseLoop.volume = alertness / guardAlertness;
+        
     }
 
 
