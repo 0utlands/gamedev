@@ -28,6 +28,10 @@ public class GuardDefaultState : GuardBaseState
         {
             guard.SwitchState(guard.seePlayerState);
         }
+        else if (guard.getIfGuardIsBeingTouchedFromBehind())
+        {
+            guard.SwitchState(guard.feelsPlayerState);
+        }
         else if (guard.getIfShouldReactToSound())
         {
             guard.SwitchState(guard.hearNoiseState);
