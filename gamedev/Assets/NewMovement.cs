@@ -94,7 +94,7 @@ public class NewMovement : MonoBehaviour
             
         }
         staminaBar.setStamina(stamina);
-        print("Stamina: " + stamina);
+        //print("Stamina: " + stamina);
 
         
 
