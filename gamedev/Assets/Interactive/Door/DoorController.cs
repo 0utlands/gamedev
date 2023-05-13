@@ -58,6 +58,7 @@ public class DoorController : MonoBehaviour, HasDefault
     //For opening and closing doorways by walking into trigger areas
     private void OnDoorwayTriggerOpen(int id)
     {
+        print("close");
         if (id != this.id)
         {
             return;
@@ -71,6 +72,7 @@ public class DoorController : MonoBehaviour, HasDefault
 
     private void OnDoorwayClose(int id)
     {
+        print("dooropen");
         if (id != this.id)
         {
             return;

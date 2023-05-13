@@ -149,8 +149,8 @@ public class GameManager : MonoBehaviour
             previousAlertness = alertness;
 
 
-            Debug.Log("Alertness:" + alertness);
-            Debug.Log("intsinsity:" + (alertness / guardAlertness));
+            //Debug.Log("Alertness:" + alertness);
+            //Debug.Log("intsinsity:" + (alertness / guardAlertness));
 
 
             theChromaticAberration.intensity.value = alertness / guardAlertness;

@@ -72,12 +72,24 @@ public class Interactable : MonoBehaviour, IInteractable
         isItemOnHead = true;
         player.GetComponent<NewMovement>().hasItemOnHead = true;
         //GetComponent<BoxCollider>().enabled = false;
+        if (this.TryGetComponent(out DropSound ds))
+        {
+
+            ds.canMakeSound = false;
+
+        }
     }
 
     public void dropItem() {
         isItemOnHead = false;
         player.GetComponent<NewMovement>().hasItemOnHead = false;
         GetComponent<Rigidbody>().velocity = new Vector3(0.0f,0.0f,0.0f);
+        if (this.TryGetComponent(out DropSound ds))
+        {
+            
+            ds.canMakeSound = true;
+            
+        }
         //GetComponent<BoxCollider>().enabled = true;
     }
 }
