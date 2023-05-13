@@ -22,8 +22,8 @@ public class NewMovement : MonoBehaviour
     private bool isSprinting = false;
     [SerializeField] private float maxStamina = 100f;
     private float stamina;
-    [SerializeField] private float staminaReductionRate = 1.0f;
-    [SerializeField] private float staminaRegenRate = 0.25f;
+    [SerializeField] private float staminaReductionRate = 0.75f;
+    [SerializeField] private float staminaRegenRate = 0.125f;
     public StaminaBar staminaBar;
 
     private void Awake()

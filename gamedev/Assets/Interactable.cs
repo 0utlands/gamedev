@@ -9,6 +9,7 @@ public class Interactable : MonoBehaviour, IInteractable
     private Vector3 playerPos;
     public float height = 2.0f;
     public float distanceCutoff = 0.8f;
+    [SerializeField] private Vector3 optionalRotation = Vector3.zero;
     GameObject player;
 
     private bool interactedWith = false;
@@ -46,7 +47,8 @@ public class Interactable : MonoBehaviour, IInteractable
             playerPos = player.GetComponent<Transform>().position;
             transform.position = new Vector3(playerPos.x, playerPos.y + height, playerPos.z);
             transform.forward = player.GetComponent<Transform>().forward;
-        }
+           
+        };
 
 
 

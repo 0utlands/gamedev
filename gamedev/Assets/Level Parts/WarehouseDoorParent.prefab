@@ -145,7 +145,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e714dbd521904c8489ad6b6ed5e07f9e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 90ae5a46196e3aa44b3fd1918449898c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -376,7 +376,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e714dbd521904c8489ad6b6ed5e07f9e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 90ae5a46196e3aa44b3fd1918449898c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -577,7 +577,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8107651815230085211}
   m_Layer: 0
-  m_Name: WarehouseDoorParent 1
+  m_Name: WarehouseDoorParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
