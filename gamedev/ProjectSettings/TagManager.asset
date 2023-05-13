@@ -8,6 +8,7 @@ TagManager:
   - HasDefault
   - Guard
   - ToSteal
+  - KeyCard
   layers:
   - Default
   - TransparentFX

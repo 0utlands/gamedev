@@ -66,7 +66,7 @@ public class LightController : MonoBehaviour
     //to make a new door, with a new triggering mechanism - make sure the new doors' animator transition bool is named DoorIsOpen, and make sure anything triggering it acts in the same way as the doortrigger class.
     public void TurnOn()
     {
-        GetComponent<Light>().intensity = 1;
+        GetComponent<Light>().intensity = 2;
     }
 
     public void TurnOff()
