@@ -14,11 +14,17 @@ public class NewMovement : MonoBehaviour
     [SerializeField] private float movementSpeed = 0.05f;
     [SerializeField] private float sprintSpeed = 0.1f;
     public bool hasItemOnHead = false;
-    private bool isSprinting = false;
     public float rotationSpeed;
 
     private GameObject objectOnHead;
     [SerializeField] private float interactionRange;
+   
+    private bool isSprinting = false;
+    [SerializeField] private float maxStamina = 100f;
+    private float stamina;
+    [SerializeField] private float staminaReductionRate = 1.0f;
+    [SerializeField] private float staminaRegenRate = 0.25f;
+    public StaminaBar staminaBar;
 
     private void Awake()
     {
@@ -27,7 +33,13 @@ public class NewMovement : MonoBehaviour
         charController = GetComponent<CharacterController>();
     }
 
-  
+    private void Start()
+    {
+        stamina = maxStamina;
+        staminaBar.setMaxStamina(stamina);
+    }
+
+
 
     //called when object becomes enabled and active
     private void OnEnable()
@@ -51,13 +63,38 @@ public class NewMovement : MonoBehaviour
     {
         //Debug.Log(moveVec);
         //move the character in the direction specified by WASD
-        if (isSprinting)
+        if (isSprinting && moveVec != Vector3.zero)
         {
-            charController.Move(moveVec * sprintSpeed);
+            if (stamina <= 0)
+            {
+                //player is trying to sprint, but has no stamina left
+                //- move the character at walking speed
+                //- keep sprint meter at zero
+                stamina = 0;
+                charController.Move(moveVec * movementSpeed);
+            } else
+            {
+                //Player is sprinting:
+                //- remove one from sprint meter every fixed update
+                //- move player at sprint speed
+                charController.Move(moveVec * sprintSpeed);
+                stamina -= staminaReductionRate;
+            }
+
         } else
         {
+            //player is walking
+            //- move them at walking speed
+            //regen their stamina.
             charController.Move(moveVec * movementSpeed);
+            if (stamina < 100) 
+            {
+                stamina += staminaRegenRate;
+            }
+            
         }
+        staminaBar.setStamina(stamina);
+        print("Stamina: " + stamina);
 
         
 
