@@ -9,7 +9,7 @@ public class GuardHearNoiseState : GuardBaseState
 
     private bool retry = false;
     private float frame = 0;
-    private float maxFrames = 10;
+    private float maxFrames = 24;
 
     public override void enterState(GuardStateManager guard)
     {

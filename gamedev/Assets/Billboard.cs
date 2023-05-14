@@ -6,7 +6,12 @@ public class Billboard : MonoBehaviour
 {
 
     public Transform cam;
-    
+
+    private void Awake()
+    {
+        cam = GameObject.FindObjectOfType<Camera>().transform;
+    }
+
     //always called after the regular update
     void LateUpdate()
     {
