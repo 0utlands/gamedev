@@ -7,9 +7,11 @@ public class KeyCardTriggerArea : MonoBehaviour
     public int id;
     [SerializeField] private AudioSource openSound;
     [SerializeField] private AudioSource closeSound;
+    [SerializeField] private string keyCardTag = "KeyCard";
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "KeyCard")
+        if (other.tag == keyCardTag)
         {
             print("Keycard found");
             GameEvents.instance.DoorwayOpen(id);
@@ -21,7 +23,7 @@ public class KeyCardTriggerArea : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "KeyCard")
+        if (other.tag == keyCardTag)
         {
             print("Keycard found");
             print("Keycard gone");

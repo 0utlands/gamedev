@@ -9,6 +9,9 @@ TagManager:
   - Guard
   - ToSteal
   - KeyCard
+  - KeyCard2
+  - KeyCard3
+  - KeyCard4
   layers:
   - Default
   - TransparentFX
