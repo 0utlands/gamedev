@@ -119,7 +119,7 @@ public class GuardSenses
 
     public bool canGuardSeePlayer()
     {
-        return currentAlertness > 0;
+        return currentAlertness > 0.8 * maxAlertness;
     }
 
     public bool isGuardAtMaxAlertness()
