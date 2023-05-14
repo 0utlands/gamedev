@@ -84,16 +84,16 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        TooltipText = GameObject.Find("TooltipText");
-        TooltipText.SetActive(false);
+        //TooltipText = GameObject.Find("TooltipText");
+        //TooltipText.SetActive(false);
     }
 
     private void Start()
     {
-        //menu = GameObject.Find("MenuAccess").GetComponent<Menu>().menu;
+        menu = GameObject.Find("MenuAccess").GetComponent<Menu>().menu;
         Debug.Log("gamemanager starting level: " + levelNumber);
-        //menu = GameObject.Find("Menu");
-        //menu.SetActive(false);
+        menu = GameObject.Find("Menu");
+        menu.SetActive(false);
 
 
 
