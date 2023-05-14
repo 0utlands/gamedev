@@ -14,6 +14,13 @@ public class Interactable : MonoBehaviour, IInteractable
 
     private bool interactedWith = false;
 
+
+    //debugging variables
+    private float frame = 0;
+    private float maxFrames = 24;
+    private bool printObjectVelocity = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,7 +58,17 @@ public class Interactable : MonoBehaviour, IInteractable
         };
 
 
+        if (frame < maxFrames && printObjectVelocity == true) 
+        { 
+            Debug.Log("Obj velocity after dropping: " + GetComponent<Rigidbody>().velocity);
+            frame += 1;
+        }
 
+        if (frame >= maxFrames && printObjectVelocity == true)
+        {
+            printObjectVelocity = false;
+            frame = 0;
+        }
         
 
 
@@ -92,6 +109,12 @@ public class Interactable : MonoBehaviour, IInteractable
             ds.canMakeSound = true;
             
         }
+
+        //can remove when debugging is done
+        printObjectVelocity = true;
+
+
+
         //GetComponent<BoxCollider>().enabled = true;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Diagnostics;
 
 public class DoorButton : MonoBehaviour, IInteractable
 {
@@ -16,8 +17,11 @@ public class DoorButton : MonoBehaviour, IInteractable
         GameEvents.instance.DoorwayToggle(id);
        
         
-        Debug.Log("Interacting with DoorButton");
-        
+        UnityEngine.Debug.Log("Interacting with DoorButton");
+        string callingFuncName = new StackFrame(1).GetMethod().Name;
+        UnityEngine.Debug.Log(callingFuncName);
+        //Debug.Log("this")
+
     }
 }
 

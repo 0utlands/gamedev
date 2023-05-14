@@ -130,7 +130,10 @@ public class NewMovement : MonoBehaviour
 
     private void OnInteractionPerformed(InputAction.CallbackContext value)
     {
+
+
         Debug.Log("Interaction time");
+        
         Collider[] col = Physics.OverlapSphere(this.transform.position, interactionRange);
 
         if (objectOnHead != null)
@@ -146,15 +149,23 @@ public class NewMovement : MonoBehaviour
 
             for (int i = 0; i < col.Length; i++)
             {
-                //Debug.Log(col[i]);
+                Debug.Log(col[i]);
                 if (col[i].TryGetComponent(out IInteractable interactor))
                 {
                     //Debug.Log("Interactor responding to interaction");
                     interactor.Interact();
-                    objectOnHead = col[i].gameObject;
+                    interactor = null;
+
+                    //if the object can be put on the players head
+                    if (col[i].TryGetComponent(out Interactable interactable))
+                    {
+                        objectOnHead = col[i].gameObject;
+                    }
+                    
                 }
             }
         }
+        Debug.Log("Done interacting");
     }
 
     private void OnSprintStartPerformed(InputAction.CallbackContext value)
