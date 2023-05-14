@@ -57,7 +57,7 @@ public class Interactable : MonoBehaviour, IInteractable
            
         };
 
-
+        //code for debugging - why are boxes pinging out of the map?
         if (frame < maxFrames && printObjectVelocity == true) 
         { 
             Debug.Log("Obj velocity after dropping: " + GetComponent<Rigidbody>().velocity);

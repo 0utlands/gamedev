@@ -3730,8 +3730,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2503577357721911670, guid: 899a07c58e0be8b4396183ad1ff27b99,
         type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2503577357721911670, guid: 899a07c58e0be8b4396183ad1ff27b99,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4867f5af4417cdf4eb5b69739bbf15fc, type: 3}
+    - target: {fileID: 2503577357721911670, guid: 899a07c58e0be8b4396183ad1ff27b99,
+        type: 3}
       propertyPath: m_PlayOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2503577357721911671, guid: 899a07c58e0be8b4396183ad1ff27b99,
         type: 3}
@@ -3881,6 +3891,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: END OF LEVEL
       objectReference: {fileID: 0}
+    - target: {fileID: 5622101826727420110, guid: 053a547a61a606046875845596d01227,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 582122725}
     - target: {fileID: 5622101826727420111, guid: 053a547a61a606046875845596d01227,
         type: 3}
       propertyPath: m_RootOrder
@@ -4780,6 +4795,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2564d731f441d2e4cb375fbc69892ca2, type: 3}
+--- !u!114 &582122725 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1911158335102436136, guid: 2564d731f441d2e4cb375fbc69892ca2,
+    type: 3}
+  m_PrefabInstance: {fileID: 582122724}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3218c90cc0045c841a21437ef6a1e9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &607793949
 GameObject:
   m_ObjectHideFlags: 0

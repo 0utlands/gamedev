@@ -24,17 +24,7 @@ public class GuardHearNoiseState : GuardBaseState
     public override void updateState(GuardStateManager guard)
     {
 
-
-
-        //guard.agent.SetDestination(guard.mostRecentSoundHeard.pos);
         bool shouldGuardStop = (RemainingDistance(guard.agent.path.corners) < 0.5);
-
-
-        //Debug.Log("Guard remaining distance:" + guard.agent.remainingDistance);
-        //bool shouldGuardStop = (guard.agent.remainingDistance < 0.5);
-
-
-
 
         Debug.Log("Should guiard stop?" + shouldGuardStop);
         if(shouldGuardStop)

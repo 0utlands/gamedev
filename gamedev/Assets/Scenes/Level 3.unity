@@ -1424,6 +1424,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2564d731f441d2e4cb375fbc69892ca2, type: 3}
+--- !u!114 &313867373 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1911158335102436136, guid: 2564d731f441d2e4cb375fbc69892ca2,
+    type: 3}
+  m_PrefabInstance: {fileID: 313867372}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3218c90cc0045c841a21437ef6a1e9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &316317443 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 455176, guid: cddf3d66c16cf1c4eb4d9646cc4d763f,
@@ -6828,6 +6840,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: END OF LEVEL
       objectReference: {fileID: 0}
+    - target: {fileID: 5622101826727420110, guid: 053a547a61a606046875845596d01227,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 313867373}
     - target: {fileID: 5622101826727420111, guid: 053a547a61a606046875845596d01227,
         type: 3}
       propertyPath: m_RootOrder
