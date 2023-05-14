@@ -132,9 +132,16 @@ public class NewMovement : MonoBehaviour
     {
 
 
-        Debug.Log("Interaction time");
+        //Debug.Log("Interaction time");
         
         Collider[] col = Physics.OverlapSphere(this.transform.position, interactionRange);
+
+        foreach(Collider c in col)
+        {
+            if (c.TryGetComponent(out Tooltip tooltip)){
+                tooltip.showToolTip();
+            }
+        }
 
         if (objectOnHead != null)
         {
