@@ -7,7 +7,7 @@ public class Tooltip : MonoBehaviour
     public Transform cam;
     private Vector3 startPosition;
     private float inc;
-    private GameObject TooltipText;
+    public GameObject TooltipText;
     public GameObject TooltipTip;
     private bool closeButton;
 

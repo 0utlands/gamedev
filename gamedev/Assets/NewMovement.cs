@@ -136,12 +136,17 @@ public class NewMovement : MonoBehaviour
         
         Collider[] col = Physics.OverlapSphere(this.transform.position, interactionRange);
 
+
         foreach(Collider c in col)
         {
             if (c.TryGetComponent(out Tooltip tooltip)){
-                tooltip.showToolTip();
+                if (tooltip.TooltipText.activeInHierarchy == true) {
+                    tooltip.showToolTip();
+                    return;
+                }
             }
         }
+
 
         if (objectOnHead != null)
         {

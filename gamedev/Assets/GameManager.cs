@@ -84,8 +84,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        //TooltipText = GameObject.Find("TooltipText");
-        //TooltipText.SetActive(false);
+        TooltipText = GameObject.Find("TooltipText");
+        TooltipText.SetActive(false);
     }
 
     private void Start()
