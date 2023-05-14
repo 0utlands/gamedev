@@ -50,8 +50,6 @@ public class Tooltip : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("here");
-        Debug.Log(TooltipText.activeInHierarchy);
         closeButton = false;
         if (TooltipText.activeInHierarchy == false)
         {
