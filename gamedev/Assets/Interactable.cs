@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Interactable : MonoBehaviour, IInteractable
@@ -71,6 +72,11 @@ public class Interactable : MonoBehaviour, IInteractable
         }
         
 
+        //hopefully this code will mean that the object goes back on the users head if the drop it and it falls through floor.
+        if (!isItemOnHead && transform.position.y < -10)
+        {
+            putItemOnHead();
+        }
 
         /*if (Input.GetKeyDown(interactKey) || interactedWith) {
             if (isItemOnHead)
