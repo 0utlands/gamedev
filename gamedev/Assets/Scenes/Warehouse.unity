@@ -38831,7 +38831,7 @@ PrefabInstance:
     - target: {fileID: 2332285281509488925, guid: 9a889d5807e829b48a482819c3eb5560,
         type: 3}
       propertyPath: staminaReductionRate
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 5117306116624199688, guid: 9a889d5807e829b48a482819c3eb5560,
         type: 3}
