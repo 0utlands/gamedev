@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour
         GameObject levelCompleteText = levelComplete.transform.GetChild(1).gameObject;
         GameObject NextLevelUnlockedText = levelComplete.transform.GetChild(2).gameObject;
 
+        GameObject.Find("Music").GetComponent<AudioSource>().Stop();
+
         levelCompleteText.GetComponent<TextMeshProUGUI>().text = "Level " + levelNumber + " Complete!";
         if (levelNumber < 4)
         {
