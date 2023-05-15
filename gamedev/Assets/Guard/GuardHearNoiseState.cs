@@ -26,11 +26,11 @@ public class GuardHearNoiseState : GuardBaseState
 
         bool shouldGuardStop = (RemainingDistance(guard.agent.path.corners) < 0.5);
 
-        Debug.Log("Should guiard stop?" + shouldGuardStop);
+        //Debug.Log("Should guiard stop?" + shouldGuardStop);
         if(shouldGuardStop)
         {
-            Debug.Log("Guard stopping. remaining distance: " + RemainingDistance(guard.agent.path.corners));
-            Debug.Log("Number of corners: " + guard.agent.path.corners.Length);
+            //Debug.Log("Guard stopping. remaining distance: " + RemainingDistance(guard.agent.path.corners));
+            //Debug.Log("Number of corners: " + guard.agent.path.corners.Length);
             retry = true;
         }
 
