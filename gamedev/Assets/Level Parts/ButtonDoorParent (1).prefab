@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 7855524311857737895}
   - component: {fileID: 7855524311857737888}
   - component: {fileID: 7855524311857737896}
+  - component: {fileID: 1816193982627394623}
   m_Layer: 0
   m_Name: Button (1)
   m_TagString: Untagged
@@ -408,6 +409,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &1816193982627394623
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7855524311857737890}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.37, y: 4.19, z: 2.58}
+  m_Center: {x: -0.9, y: 0, z: 0.0000009536743}
 --- !u!1 &7855524312292332272
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,6 +445,7 @@ GameObject:
   - component: {fileID: 7855524312292332277}
   - component: {fileID: 7855524312292332278}
   - component: {fileID: 7855524312292332284}
+  - component: {fileID: 6104408032246281135}
   m_Layer: 0
   m_Name: Button (2)
   m_TagString: Untagged
@@ -639,6 +662,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &6104408032246281135
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7855524312292332272}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.37, y: 4.19, z: 2.58}
+  m_Center: {x: 0.53, y: 0, z: 0.0000009536743}
 --- !u!1 &7855524312412075343
 GameObject:
   m_ObjectHideFlags: 0

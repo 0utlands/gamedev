@@ -41,12 +41,14 @@ public class DoorController : MonoBehaviour, HasDefault
     //for opening and closing doorways using buttons.
     private void OnDoorwayToggle(int id)
     {
+        
         if (id != this.id)
         {
             return;
         }
         if (!m_isOpen)
         {
+            
             Open();
         } else
         {
