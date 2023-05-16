@@ -29,15 +29,15 @@ public class Interactable : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        Debug.Log("Interracting with box!");
+        //Debug.Log("Interracting with box!");
         if (isItemOnHead)
         {
-            Debug.Log("Dropping item");
+            //Debug.Log("Dropping item");
             dropItem();
         }
         else
         {
-            Debug.Log("putting item on head");
+            //Debug.Log("putting item on head");
             if (Vector3.Distance(player.GetComponent<Transform>().position, transform.position) < distanceCutoff)
             {
                 if (!player.GetComponent<NewMovement>().hasItemOnHead)
@@ -61,7 +61,7 @@ public class Interactable : MonoBehaviour, IInteractable
         //code for debugging - why are boxes pinging out of the map?
         if (frame < maxFrames && printObjectVelocity == true) 
         { 
-            Debug.Log("Obj velocity after dropping: " + GetComponent<Rigidbody>().velocity);
+            //Debug.Log("Obj velocity after dropping: " + GetComponent<Rigidbody>().velocity);
             frame += 1;
         }
 

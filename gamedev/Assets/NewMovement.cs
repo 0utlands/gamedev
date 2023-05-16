@@ -140,7 +140,7 @@ public class NewMovement : MonoBehaviour
         foreach (GameObject activeTooltip in activeTooltips)
         {
             activeTooltip.SetActive(false);
-            Debug.Log("hereeeeee");
+            //Debug.Log("hereeeeee");
             //break;
         }
         foreach (Collider c in col)
@@ -159,7 +159,7 @@ public class NewMovement : MonoBehaviour
             }
         }
 
-        Debug.Log("HELOTHERE");
+        //Debug.Log("HELOTHERE");
 
         if (objectOnHead != null)
         {
@@ -191,7 +191,7 @@ public class NewMovement : MonoBehaviour
                 
             }
         }
-        Debug.Log("Done interacting");
+        //Debug.Log("Done interacting");
     }
 
     private void OnSprintStartPerformed(InputAction.CallbackContext value)

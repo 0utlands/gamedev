@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -64,9 +66,16 @@ public class GameManager : MonoBehaviour
         GameObject NextLevelUnlockedText = levelComplete.transform.GetChild(2).gameObject;
         GameObject levelSelectButton = levelComplete.transform.GetChild(0).gameObject;
         //GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton);
-        GameObject.Find("EventSystem").GetComponent<StandaloneInputModule>().enabled = false;
+        //GameObject.Find("EventSystem").GetComponent<StandaloneInputModule>().enabled = false;
+
+        Destroy(GameObject.Find("EventSystem"));
         
-        
+        var eventSystem = new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
+
+        eventSystem.GetComponent<InputSystemUIInputModule>().deselectOnBackgroundClick = false;
+
+        eventSystem.GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton.GetComponent<Button>().gameObject);
+
         //Debug.Log(GameObject.Find("EventSystem").GetComponent<EventSystem>().currentSelectedGameObject);
 
         GameObject.Find("Music").GetComponent<AudioSource>().Stop();
@@ -87,10 +96,10 @@ public class GameManager : MonoBehaviour
             mainMenu.GetComponent<MainMenu>().levelSelectButtons();
         }
 
-        GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton);
+        //GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton);
         //mainMenu.GetComponent<MainMenu>().changeActiveButton(levelSelectButton);
         //levelSelectButton.GetComponent<Button>().Select();
-
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
         //SceneManager.UnloadScene(SceneManager.GetActiveScene().name);
         //SceneManager.LoadScene(0);
     }

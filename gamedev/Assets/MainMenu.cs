@@ -23,6 +23,7 @@ public class MainMenu : MonoBehaviour
 
     public void changeActiveButton(GameObject button) {
         eventSystem = GameObject.Find("EventSystem");
+        Debug.Log("before: " + eventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().currentSelectedGameObject);
         eventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(button);
         Debug.Log("Selected button changed to : " + button);
     }
@@ -34,7 +35,6 @@ public class MainMenu : MonoBehaviour
     public void levelSelectButtons() {
         for(int i = 0; i < 5; i++)
         {
-            Debug.Log("i = " + i + "unlockedlevels = " + levelsUnlocked);
             if (i < levelsUnlocked)
             {
                 GameObject.Find("Menu").gameObject.transform.GetChild(2).gameObject.transform.GetChild(i + 1).GetComponent<Button>().interactable = true;
@@ -69,7 +69,6 @@ public class MainMenu : MonoBehaviour
         {
             string saveString = File.ReadAllText(Application.dataPath + "/save.txt");
             SaveObj saveObj = JsonUtility.FromJson<SaveObj>(saveString);
-            Debug.Log("File exists");
             levelsUnlocked = saveObj.levelUnlocked;
             //Debug.Log("Levels unlocked: " + levelsUnlocked);
         }
