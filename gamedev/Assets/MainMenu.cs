@@ -78,6 +78,12 @@ public class MainMenu : MonoBehaviour
             levelsUnlocked = 1;
         }
     }
+    public void ResetSave()
+    {
+        levelsUnlocked = 1;
+        Save();
+        levelSelectButtons();
+    }
 
 
 }
