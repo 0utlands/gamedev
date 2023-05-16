@@ -55,6 +55,7 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
     {
         agent = GetComponent<NavMeshAgent>();
         guardAnimator = GetComponent<Animator>();
+        guardAnimator.SetBool("IsFindingPath", false);
         currentWaypoint = 0;
         guardSenses = new GuardSenses(this);
         //maxAlertness = guardSenses.maxAlertness;
@@ -79,12 +80,37 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
         //print(canGuardSeePlayer);
         isGuardAtMaxAlertness = guardSenses.isGuardAtMaxAlertness();
         currentState.updateState(this);
+        updateAnimations();
 
     }
 
     private void FixedUpdate()
     {
         guardSenses.fixedUpdateGuardAlertness(this);
+    }
+    private void updateAnimations()
+    {
+
+        if (agent.remainingDistance < 0.5)
+        {
+            guardAnimator.SetBool("IsFindingPath", false);
+        }
+        else
+        {
+            guardAnimator.SetBool("IsFindingPath", true);
+        }
+
+        /*isGuardMovingForAnimations = guardAnimator.GetBool("IsFindingPath");
+
+        if (agent.remainingDistance < 0.5 && isGuardMovingForAnimations == true)
+        {
+            guardAnimator.SetBool("IsFindingPath", false );
+        } else if ( isGuardMovingForAnimations == false)
+        {
+            Debug.Log("here: " + isGuardMovingForAnimations);
+            guardAnimator.SetBool("IsFindingPath", true);
+        }*/
+
     }
 
     public void SwitchState(GuardBaseState state)
