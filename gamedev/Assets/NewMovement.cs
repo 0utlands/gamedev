@@ -136,17 +136,30 @@ public class NewMovement : MonoBehaviour
         
         Collider[] col = Physics.OverlapSphere(this.transform.position, interactionRange);
 
-
-        foreach(Collider c in col)
+        GameObject[] activeTooltips = GameObject.FindGameObjectsWithTag("Tooltip");
+        foreach (GameObject activeTooltip in activeTooltips)
+        {
+            activeTooltip.SetActive(false);
+            Debug.Log("hereeeeee");
+            //break;
+        }
+        foreach (Collider c in col)
         {
             if (c.TryGetComponent(out Tooltip tooltip)){
-                if (tooltip.TooltipText.activeInHierarchy == true) {
+
+                if (tooltip.TooltipText.activeInHierarchy == true)
+                {
                     tooltip.showToolTip();
+                    return;
+                }
+                else {
+                    tooltip.hideToolTip();
                     return;
                 }
             }
         }
 
+        Debug.Log("HELOTHERE");
 
         if (objectOnHead != null)
         {
@@ -173,8 +186,9 @@ public class NewMovement : MonoBehaviour
                     {
                         objectOnHead = col[i].gameObject;
                     }
-                    
+                    return;
                 }
+                
             }
         }
         Debug.Log("Done interacting");

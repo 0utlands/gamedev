@@ -211,7 +211,7 @@ Transform:
   - {fileID: 453903769867749841}
   - {fileID: 453903768625003516}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90.333, z: 0}
 --- !u!1 &453903769362526905
 GameObject:
@@ -438,6 +438,7 @@ GameObject:
   - component: {fileID: 453903769867749843}
   - component: {fileID: 453903769867749840}
   - component: {fileID: 453903769867749850}
+  - component: {fileID: 8959315184515657600}
   m_Layer: 0
   m_Name: Button (2)
   m_TagString: Untagged
@@ -654,6 +655,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &8959315184515657600
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453903769867749846}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.21, y: 4.69, z: 3}
+  m_Center: {x: 0.77, y: 0, z: 0}
 --- !u!1 &453903770304457604
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,6 +691,7 @@ GameObject:
   - component: {fileID: 453903770304457601}
   - component: {fileID: 453903770304457606}
   - component: {fileID: 453903770304457614}
+  - component: {fileID: 6847324010420396995}
   m_Layer: 0
   m_Name: Button (1)
   m_TagString: Untagged
@@ -885,3 +908,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &6847324010420396995
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453903770304457604}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.21, y: 4.69, z: 3}
+  m_Center: {x: -1.1, y: 0, z: 0}

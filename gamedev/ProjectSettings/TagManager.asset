@@ -12,6 +12,7 @@ TagManager:
   - KeyCard2
   - KeyCard3
   - KeyCard4
+  - Tooltip
   layers:
   - Default
   - TransparentFX

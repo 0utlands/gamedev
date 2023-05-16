@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
     public int levelNumber;
     private GameObject menu;
     public GameObject TooltipText;
+    public GameObject DoorText;
 
     private bool shouldStinger2Play = true;
 
@@ -58,6 +60,8 @@ public class GameManager : MonoBehaviour
         levelComplete.SetActive(true);
         GameObject levelCompleteText = levelComplete.transform.GetChild(1).gameObject;
         GameObject NextLevelUnlockedText = levelComplete.transform.GetChild(2).gameObject;
+        GameObject levelSelectButton = levelComplete.transform.GetChild(0).gameObject;
+        GameObject.Find("EventSystemMenu").GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton);
 
         GameObject.Find("Music").GetComponent<AudioSource>().Stop();
 
@@ -88,18 +92,17 @@ public class GameManager : MonoBehaviour
     {
         TooltipText = GameObject.Find("TooltipText");
         TooltipText.SetActive(false);
+        DoorText = GameObject.Find("DoorText");
+        DoorText.SetActive(false);
     }
 
     private void Start()
     {
-        menu = GameObject.Find("MenuAccess").GetComponent<Menu>().menu;
-        Debug.Log("gamemanager starting level: " + levelNumber);
-        menu = GameObject.Find("Menu");
-        menu.SetActive(false);
-
-
-
-
+        if (GameObject.Find("MenuAccess") != null) {
+            menu = GameObject.Find("MenuAccess").GetComponent<Menu>().menu;
+            menu = GameObject.Find("Menu");
+            menu.SetActive(false);
+        }
 
         GameObject[] guardObjs = GameObject.FindGameObjectsWithTag("Guard");
         foreach (GameObject guardObj in guardObjs)
