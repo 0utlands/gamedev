@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static MainMenu;
 
 public class MainMenu : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
+        Load();
         levelSelectButtons();
     }
     public void LevelSelect(int level) {
@@ -44,4 +47,37 @@ public class MainMenu : MonoBehaviour
         }
         
     }
+
+    public class SaveObj
+    {
+        public int levelUnlocked;
+    }
+
+    public void Save()
+    {
+        SaveObj saveObj = new SaveObj
+        {
+            levelUnlocked = levelsUnlocked
+        };
+        string saveJson = JsonUtility.ToJson(saveObj);
+        File.WriteAllText(Application.dataPath + "/save.txt", saveJson);
+    }
+
+    public void Load()
+    {
+        if (File.Exists(Application.dataPath + "/save.txt"))
+        {
+            string saveString = File.ReadAllText(Application.dataPath + "/save.txt");
+            SaveObj saveObj = JsonUtility.FromJson<SaveObj>(saveString);
+            Debug.Log("File exists");
+            levelsUnlocked = saveObj.levelUnlocked;
+            //Debug.Log("Levels unlocked: " + levelsUnlocked);
+        }
+        else
+        {
+            levelsUnlocked = 1;
+        }
+    }
+
+
 }
