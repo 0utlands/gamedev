@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GameEvents : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameEvents : MonoBehaviour
     public void Awake()
     {
         instance = this; 
+        this.GetComponent<StandaloneInputModule>().enabled = true;
     }
 
     public event Action<int> onDoorwayTriggerEnter;

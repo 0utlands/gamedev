@@ -232,9 +232,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1461543907}
-        m_TargetAssemblyTypeName: UnityEngine.EventSystems.EventSystem, UnityEngine.UI
-        m_MethodName: SetSelectedGameObject
+      - m_Target: {fileID: 1156915076}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: changeActiveButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 816978057}
@@ -1895,6 +1895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ac7f9bf0c8c87b4f83303df751d0d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSystem: {fileID: 0}
 --- !u!1 &785787637
 GameObject:
   m_ObjectHideFlags: 0
@@ -2125,9 +2126,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1461543907}
-        m_TargetAssemblyTypeName: UnityEngine.EventSystems.EventSystem, UnityEngine.UI
-        m_MethodName: SetSelectedGameObject
+      - m_Target: {fileID: 1156915076}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: changeActiveButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 921744692}
@@ -2283,9 +2284,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1461543907}
-        m_TargetAssemblyTypeName: UnityEngine.EventSystems.EventSystem, UnityEngine.UI
-        m_MethodName: SetSelectedGameObject
+      - m_Target: {fileID: 1156915076}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: changeActiveButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1850496068}
@@ -2913,6 +2914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ac7f9bf0c8c87b4f83303df751d0d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSystem: {fileID: 0}
 --- !u!1 &1202012609
 GameObject:
   m_ObjectHideFlags: 0
@@ -3547,7 +3549,7 @@ GameObject:
   - component: {fileID: 1461543909}
   - component: {fileID: 1461543910}
   m_Layer: 0
-  m_Name: EventSystemMenu
+  m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3651,7 +3653,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461543905}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 213596309b543fa43ae7d1659dd22a86, type: 3}
   m_Name: 
@@ -4370,6 +4372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ac7f9bf0c8c87b4f83303df751d0d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSystem: {fileID: 0}
 --- !u!1 &1594407742
 GameObject:
   m_ObjectHideFlags: 0
@@ -5193,7 +5196,7 @@ GameObject:
   - component: {fileID: 1804689020}
   - component: {fileID: 1804689019}
   m_Layer: 5
-  m_Name: Button
+  m_Name: LevelSelectButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5233,7 +5236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -5288,9 +5291,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1461543907}
-        m_TargetAssemblyTypeName: UnityEngine.EventSystems.EventSystem, UnityEngine.UI
-        m_MethodName: SetSelectedGameObject
+      - m_Target: {fileID: 1156915076}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: changeActiveButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1850496068}
@@ -6340,6 +6343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ac7f9bf0c8c87b4f83303df751d0d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSystem: {fileID: 0}
 --- !u!1 &2116510230
 GameObject:
   m_ObjectHideFlags: 0
@@ -6448,9 +6452,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1461543907}
-        m_TargetAssemblyTypeName: UnityEngine.EventSystems.EventSystem, UnityEngine.UI
-        m_MethodName: SetSelectedGameObject
+      - m_Target: {fileID: 1156915076}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: changeActiveButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 921744692}

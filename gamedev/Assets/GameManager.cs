@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     public void CompleteLevel()
     {
+        Debug.Log("Completed level");
         levelCompleted = true;
         menu.SetActive(true);
         GameObject mainMenu = menu.transform.GetChild(1).gameObject;
@@ -58,10 +59,15 @@ public class GameManager : MonoBehaviour
         mainMenu.SetActive(false);
         levelSelect.SetActive(false);
         levelComplete.SetActive(true);
+        
         GameObject levelCompleteText = levelComplete.transform.GetChild(1).gameObject;
         GameObject NextLevelUnlockedText = levelComplete.transform.GetChild(2).gameObject;
         GameObject levelSelectButton = levelComplete.transform.GetChild(0).gameObject;
-        GameObject.Find("EventSystemMenu").GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton);
+        //GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton);
+        GameObject.Find("EventSystem").GetComponent<StandaloneInputModule>().enabled = false;
+        
+        
+        //Debug.Log(GameObject.Find("EventSystem").GetComponent<EventSystem>().currentSelectedGameObject);
 
         GameObject.Find("Music").GetComponent<AudioSource>().Stop();
 
@@ -76,7 +82,11 @@ public class GameManager : MonoBehaviour
         }
         levelSelect.transform.GetChild(1+levelNumber).GetComponent<Button>().interactable = true;
 
+        GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton.GetComponent<Button>().gameObject);
+        //mainMenu.GetComponent<MainMenu>().changeActiveButton(levelSelectButton);
+        //levelSelectButton.GetComponent<Button>().Select();
 
+        //SceneManager.UnloadScene(SceneManager.GetActiveScene().name);
         //SceneManager.LoadScene(0);
     }
     void Restart()
