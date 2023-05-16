@@ -80,9 +80,14 @@ public class GameManager : MonoBehaviour
         {
             NextLevelUnlockedText.GetComponent<TextMeshProUGUI>().text = "All Levels Unlocked!";
         }
-        levelSelect.transform.GetChild(1+levelNumber).GetComponent<Button>().interactable = true;
+        //levelSelect.transform.GetChild(1+levelNumber).GetComponent<Button>().interactable = true;
 
-        GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton.GetComponent<Button>().gameObject);
+        if (mainMenu.GetComponent<MainMenu>().levelsUnlocked == levelNumber) {
+            mainMenu.GetComponent<MainMenu>().levelsUnlocked += 1;
+            mainMenu.GetComponent<MainMenu>().levelSelectButtons();
+        }
+
+        GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton);
         //mainMenu.GetComponent<MainMenu>().changeActiveButton(levelSelectButton);
         //levelSelectButton.GetComponent<Button>().Select();
 
