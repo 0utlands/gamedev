@@ -13,6 +13,7 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
     public GuardChasePlayerState chasePlayerState = new GuardChasePlayerState();
     public GuardMaintainMapState maintainMapState = new GuardMaintainMapState();
     public GuardFeelsPlayerState feelsPlayerState = new GuardFeelsPlayerState();
+    public GuardHuntPlayerState huntPlayerState = new GuardHuntPlayerState();
 
 
     //guard senses and going to waypoint
@@ -49,6 +50,7 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
 
     public AudioSource huhSound;
 
+    public bool isGuardAtZeroAlertness;
     
 
     private void Awake()
@@ -79,6 +81,7 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
         canGuardSeePlayer = guardSenses.canGuardSeePlayer();
         //print(canGuardSeePlayer);
         isGuardAtMaxAlertness = guardSenses.isGuardAtMaxAlertness();
+        isGuardAtZeroAlertness = guardSenses.isGuardAtZeroAlertness();
         currentState.updateState(this);
         updateAnimations();
 
@@ -142,6 +145,11 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
     public bool getIfGuardIsBeingTouchedFromBehind()
     {
         return isGuardBeingTouchedFromBehind;
+    }
+
+    public bool getIfGuardShouldStopHuntingPlayer()
+    {
+        return isGuardAtZeroAlertness;
     }
 
 

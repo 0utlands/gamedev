@@ -122,6 +122,11 @@ public class GuardSenses
         return currentAlertness > 0.8 * maxAlertness;
     }
 
+    public bool isGuardAtZeroAlertness()
+    {
+        return currentAlertness <= 0;
+    }
+
     public bool isGuardAtMaxAlertness()
     {
         return (currentAlertness > 0) && (currentAlertness >= maxAlertness);

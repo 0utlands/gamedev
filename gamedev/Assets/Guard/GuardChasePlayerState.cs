@@ -21,9 +21,15 @@ public class GuardChasePlayerState : GuardBaseState
         }
 
         guard.agent.SetDestination(guard.guardSenses.player.transform.position);
-        if (!guard.getIfGuardCanSeePlayer())
+        /*if (!guard.getIfGuardCanSeePlayer())
         {
             guard.SwitchState(guard.defaultState);
+        }*/
+
+        if (!guard.getIfGuardShouldChasePlayer())
+        {
+            guard.SwitchState(guard.huntPlayerState);
         }
+
     }
 }
