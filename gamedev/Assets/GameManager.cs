@@ -153,15 +153,19 @@ public class GameManager : MonoBehaviour
         TooltipText.SetActive(false);
         DoorText = GameObject.Find("DoorText");
         DoorText.SetActive(false);
+
+        if (GameObject.Find("MenuAccess") != null)
+        {
+            Debug.Log("Menu does exist");
+            menu = GameObject.Find("MenuAccess").GetComponent<Menu>().menu;
+            //menu = GameObject.Find("Menu");
+            menu.SetActive(false);
+        }
     }
 
     private void Start()
     {
-        if (GameObject.Find("MenuAccess") != null) {
-            menu = GameObject.Find("MenuAccess").GetComponent<Menu>().menu;
-            menu = GameObject.Find("Menu");
-            menu.SetActive(false);
-        }
+        
 
         GameObject[] guardObjs = GameObject.FindGameObjectsWithTag("Guard");
         foreach (GameObject guardObj in guardObjs)
