@@ -17,7 +17,7 @@ public class NewMovement : MonoBehaviour
     public bool hasItemOnHead = false;
     public float rotationSpeed;
 
-    private GameObject objectOnHead;
+    public GameObject objectOnHead;
     [SerializeField] private float interactionRange;
    
     private bool isSprinting = false;
@@ -163,10 +163,14 @@ public class NewMovement : MonoBehaviour
 
         //Debug.Log("HELOTHERE");
 
+        Debug.Log("Object on head: " + objectOnHead);
+
         if (objectOnHead != null)
         {
+            Debug.Log("Object on head is not null");
             if (objectOnHead.TryGetComponent(out IInteractable interactor))
             {
+                Debug.Log("Object on head has an interactor");
                 interactor.Interact();
                 objectOnHead = null;
             }

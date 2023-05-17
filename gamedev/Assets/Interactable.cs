@@ -29,18 +29,18 @@ public class Interactable : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        //Debug.Log("Interracting with box!");
+        Debug.Log("Interracting with box!");
         if (isItemOnHead)
         {
-            //Debug.Log("Dropping item");
+            Debug.Log("Dropping item");
             dropItem();
         }
         else
         {
-            //Debug.Log("putting item on head");
+            Debug.Log("putting item on head");
             if (Vector3.Distance(player.GetComponent<Transform>().position, transform.position) < distanceCutoff)
             {
-                if (!player.GetComponent<NewMovement>().hasItemOnHead)
+                if (player.GetComponent<NewMovement>().objectOnHead == null)
                 {
                     putItemOnHead();
                 }
@@ -95,7 +95,8 @@ public class Interactable : MonoBehaviour, IInteractable
 
     public void putItemOnHead() {
         isItemOnHead = true;
-        player.GetComponent<NewMovement>().hasItemOnHead = true;
+        //player.GetComponent<NewMovement>().hasItemOnHead = true;
+        player.GetComponent<NewMovement>().objectOnHead = this.gameObject;
         //GetComponent<BoxCollider>().enabled = false;
         if (this.TryGetComponent(out DropSound ds))
         {
@@ -107,7 +108,8 @@ public class Interactable : MonoBehaviour, IInteractable
 
     public void dropItem() {
         isItemOnHead = false;
-        player.GetComponent<NewMovement>().hasItemOnHead = false;
+        //player.GetComponent<NewMovement>().hasItemOnHead = false;
+        player.GetComponent<NewMovement>().objectOnHead = null;
         GetComponent<Rigidbody>().velocity = new Vector3(0.0f,0.0f,0.0f);
         if (this.TryGetComponent(out DropSound ds))
         {
