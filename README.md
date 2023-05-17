@@ -2,7 +2,7 @@
 Games Development
 
 ##HOW TO RUN THE GAME
-- Download the project as a zip file
+- Download the project as a zip file (Press the green "code" button)
 - Un zip it
 - Open the folder named "Build"
 - Run "gamedev.exe"
