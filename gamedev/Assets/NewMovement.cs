@@ -176,10 +176,17 @@ public class NewMovement : MonoBehaviour
 
             for (int i = 0; i < col.Length; i++)
             {
-                Debug.Log(col[i]);
+                //Debug.Log(col[i]);
                 if (col[i].TryGetComponent(out IInteractable interactor))
                 {
                     //Debug.Log("Interactor responding to interaction");
+
+                    if (col[i].isTrigger == true)
+                    {
+                        Debug.Log("Interactor is not a trigger");
+                        continue;
+                    }
+
                     interactor.Interact();
                     interactor = null;
 
@@ -188,7 +195,7 @@ public class NewMovement : MonoBehaviour
                     {
                         objectOnHead = col[i].gameObject;
                     }
-                    return;
+                    //return;
                 }
                 
             }

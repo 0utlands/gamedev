@@ -23,9 +23,9 @@ public class MainMenu : MonoBehaviour
 
     public void changeActiveButton(GameObject button) {
         eventSystem = GameObject.Find("EventSystem");
-        Debug.Log("before: " + eventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().currentSelectedGameObject);
+        //Debug.Log("before: " + eventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().currentSelectedGameObject);
         eventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(button);
-        Debug.Log("Selected button changed to : " + button);
+        //Debug.Log("Selected button changed to : " + button);
     }
 
     public void QuitGame() {

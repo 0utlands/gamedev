@@ -78,9 +78,11 @@ public class GameManager : MonoBehaviour
         GameObject mainMenu = menu.transform.GetChild(1).gameObject;
         GameObject levelSelect = menu.transform.GetChild(2).gameObject;
         GameObject levelComplete = menu.transform.GetChild(3).gameObject;
+        GameObject gameComplete = menu.transform.GetChild(5).gameObject;
         mainMenu.SetActive(false);
         levelSelect.SetActive(false);
         levelComplete.SetActive(true);
+        
         
         GameObject levelCompleteText = levelComplete.transform.GetChild(1).gameObject;
         GameObject NextLevelUnlockedText = levelComplete.transform.GetChild(2).gameObject;
@@ -99,13 +101,18 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            NextLevelUnlockedText.GetComponent<TextMeshProUGUI>().text = "All Levels Unlocked!";
+            //NextLevelUnlockedText.GetComponent<TextMeshProUGUI>().text = "All Levels Unlocked!";
+            levelComplete.SetActive(false);
+            gameComplete.SetActive(true);
+
+
         }
         //levelSelect.transform.GetChild(1+levelNumber).GetComponent<Button>().interactable = true;
 
-        if (mainMenu.GetComponent<MainMenu>().levelsUnlocked == levelNumber)
+        if (mainMenu.GetComponent<MainMenu>().levelsUnlocked == levelNumber && levelNumber != 5)
         {
             mainMenu.GetComponent<MainMenu>().levelsUnlocked += 1;
+            mainMenu.GetComponent<MainMenu>().Save();
             mainMenu.GetComponent<MainMenu>().levelSelectButtons();
         }
 
