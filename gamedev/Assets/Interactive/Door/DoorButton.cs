@@ -29,7 +29,7 @@ public class DoorButton : MonoBehaviour, IInteractable
     }
     void OnTriggerEnter(Collider other)
     {
-        if (DoorText.activeInHierarchy == false)
+        if (DoorText.activeInHierarchy == false && other.tag == "Player")
         {
             DoorText.SetActive(true);
         }
@@ -42,7 +42,7 @@ public class DoorButton : MonoBehaviour, IInteractable
 
     private void OnTriggerExit(Collider other)
     {
-        if (DoorText.activeInHierarchy == true)
+        if (DoorText.activeInHierarchy == true && other.tag == "Player")
         {
             DoorText.SetActive(false);
         }
