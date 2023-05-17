@@ -50,6 +50,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void LeaveLevel() {
+        Debug.Log("Exited level");
+        levelCompleted = true;
+        menu.SetActive(true);
+        GameObject mainMenu = menu.transform.GetChild(1).gameObject;
+        GameObject levelSelect = menu.transform.GetChild(2).gameObject;
+        GameObject levelComplete = menu.transform.GetChild(3).gameObject;
+        mainMenu.SetActive(true);
+        levelSelect.SetActive(false);
+        levelComplete.SetActive(false);
+        //GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton);
+        //GameObject.Find("EventSystem").GetComponent<StandaloneInputModule>().enabled = false;
+
+
+        //Debug.Log(GameObject.Find("EventSystem").GetComponent<EventSystem>().currentSelectedGameObject);
+
+        GameObject.Find("Music").GetComponent<AudioSource>().Stop();
+
+        SceneManager.LoadScene(6);
+    }
     public void CompleteLevel()
     {
         Debug.Log("Completed level");
@@ -68,15 +88,7 @@ public class GameManager : MonoBehaviour
         //GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton);
         //GameObject.Find("EventSystem").GetComponent<StandaloneInputModule>().enabled = false;
 
-        Destroy(GameObject.Find("EventSystem"));
-        
-        var eventSystem = new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
-
-        eventSystem.GetComponent<InputSystemUIInputModule>().deselectOnBackgroundClick = false;
-
-        eventSystem.GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton.GetComponent<Button>().gameObject);
-
-        //Debug.Log(GameObject.Find("EventSystem").GetComponent<EventSystem>().currentSelectedGameObject);
+        //Destroy(GameObject.Find("EventSystem"));
 
         GameObject.Find("Music").GetComponent<AudioSource>().Stop();
 
@@ -91,10 +103,26 @@ public class GameManager : MonoBehaviour
         }
         //levelSelect.transform.GetChild(1+levelNumber).GetComponent<Button>().interactable = true;
 
-        if (mainMenu.GetComponent<MainMenu>().levelsUnlocked == levelNumber) {
+        if (mainMenu.GetComponent<MainMenu>().levelsUnlocked == levelNumber)
+        {
             mainMenu.GetComponent<MainMenu>().levelsUnlocked += 1;
             mainMenu.GetComponent<MainMenu>().levelSelectButtons();
         }
+
+        SceneManager.LoadScene(6);
+
+        //var eventSystem = new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
+        //var eventSystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
+
+        //eventSystem.SetSelectedGameObject(levelSelectButton.GetComponent<Button>().gameObject);
+
+        //eventSystem.GetComponent<InputSystemUIInputModule>().deselectOnBackgroundClick = false;
+
+        //eventSystem.GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton.GetComponent<Button>().gameObject);
+
+        //Debug.Log(GameObject.Find("EventSystem").GetComponent<EventSystem>().currentSelectedGameObject);
+
+
 
         //GameObject.Find("EventSystem").GetComponent<EventSystem>().SetSelectedGameObject(levelSelectButton);
         //mainMenu.GetComponent<MainMenu>().changeActiveButton(levelSelectButton);

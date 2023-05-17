@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Warehouse.unity
     guid: 143cf83465b09e448b05bb891a7deb00
+  - enabled: 1
+    path: Assets/Scenes/GameMenu.unity
+    guid: 975d4dbdf39a3d7448c9da4412785bf2
   m_configObjects: {}

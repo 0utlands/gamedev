@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using UnityEngine.SceneManagement;
 
 public class NewMovement : MonoBehaviour
 {
@@ -50,6 +51,7 @@ public class NewMovement : MonoBehaviour
         controls.Player.Interact.performed += OnInteractionPerformed;
         controls.Player.SprintStart.performed += OnSprintStartPerformed;
         controls.Player.SprintEnd.performed += OnSprintEndPerformed;
+        controls.Player.Exit.performed += OnExitPerformed;
     }
 
     private void OnDisable()
@@ -209,5 +211,13 @@ public class NewMovement : MonoBehaviour
     void Interact()
     {
         //Debug.Log("Interacting");
+    }
+
+    private void OnExitPerformed(InputAction.CallbackContext value)
+    {
+        //Application.Quit();
+        if (SceneManager.GetActiveScene().name != "Menu") {
+            GameObject.Find("GameManager").GetComponent<GameManager>().LeaveLevel();
+        }
     }
 }
