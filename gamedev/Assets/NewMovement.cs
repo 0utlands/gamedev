@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
+using UnityEngine.SceneManagement;
 
 public class NewMovement : MonoBehaviour
 {
@@ -10,12 +12,20 @@ public class NewMovement : MonoBehaviour
     private PlayerInput controls;
     private Vector3 moveVec = Vector3.zero;//this is a vec3 because we are moving in the x and z axis
     private CharacterController charController;
-    private float movementSpeed = 0.1f;
+    [SerializeField] private float movementSpeed = 0.05f;
+    [SerializeField] private float sprintSpeed = 0.1f;
     public bool hasItemOnHead = false;
-
     public float rotationSpeed;
 
+    public GameObject objectOnHead;
     [SerializeField] private float interactionRange;
+   
+    private bool isSprinting = false;
+    [SerializeField] private float maxStamina = 100f;
+    private float stamina;
+    [SerializeField] private float staminaReductionRate = 1.0f;
+    [SerializeField] private float staminaRegenRate = 0.25f;
+    public StaminaBar staminaBar;
 
     private void Awake()
     {
@@ -24,7 +34,13 @@ public class NewMovement : MonoBehaviour
         charController = GetComponent<CharacterController>();
     }
 
-  
+    private void Start()
+    {
+        stamina = maxStamina;
+        staminaBar.setMaxStamina(stamina);
+    }
+
+
 
     //called when object becomes enabled and active
     private void OnEnable()
@@ -33,6 +49,9 @@ public class NewMovement : MonoBehaviour
         controls.Player.Move.performed += OnMovementPerformed;
         controls.Player.Move.canceled += OnMovementCancelled;
         controls.Player.Interact.performed += OnInteractionPerformed;
+        controls.Player.SprintStart.performed += OnSprintStartPerformed;
+        controls.Player.SprintEnd.performed += OnSprintEndPerformed;
+        controls.Player.Exit.performed += OnExitPerformed;
     }
 
     private void OnDisable()
@@ -46,7 +65,40 @@ public class NewMovement : MonoBehaviour
     {
         //Debug.Log(moveVec);
         //move the character in the direction specified by WASD
-        charController.Move(moveVec * movementSpeed);
+        if (isSprinting && moveVec != Vector3.zero)
+        {
+            if (stamina <= 0)
+            {
+                //player is trying to sprint, but has no stamina left
+                //- move the character at walking speed
+                //- keep sprint meter at zero
+                stamina = 0;
+                charController.Move(moveVec * movementSpeed);
+            } else
+            {
+                //Player is sprinting:
+                //- remove one from sprint meter every fixed update
+                //- move player at sprint speed
+                charController.Move(moveVec * sprintSpeed);
+                stamina -= staminaReductionRate;
+            }
+
+        } else
+        {
+            //player is walking
+            //- move them at walking speed
+            //regen their stamina.
+            charController.Move(moveVec * movementSpeed);
+            if (stamina < 100) 
+            {
+                stamina += staminaRegenRate;
+            }
+            
+        }
+        staminaBar.setStamina(stamina);
+        //print("Stamina: " + stamina);
+
+        
 
         //if we are moving
         if(moveVec != Vector3.zero)
@@ -80,22 +132,103 @@ public class NewMovement : MonoBehaviour
 
     private void OnInteractionPerformed(InputAction.CallbackContext value)
     {
-        Debug.Log("Interaction time");
+
+
+        //Debug.Log("Interaction time");
+        
         Collider[] col = Physics.OverlapSphere(this.transform.position, interactionRange);
 
-        for (int i = 0; i < col.Length; i++)
+        GameObject[] activeTooltips = GameObject.FindGameObjectsWithTag("Tooltip");
+        foreach (GameObject activeTooltip in activeTooltips)
         {
-            //Debug.Log(col[i]);
-            if (col[i].TryGetComponent(out IInteractable interactor))
-            {
-                Debug.Log("Interactor responding to interaction");
-                interactor.Interact();
+            activeTooltip.SetActive(false);
+            //Debug.Log("hereeeeee");
+            //break;
+        }
+        foreach (Collider c in col)
+        {
+            if (c.TryGetComponent(out Tooltip tooltip)){
+
+                if (tooltip.TooltipText.activeInHierarchy == true)
+                {
+                    tooltip.showToolTip();
+                    return;
+                }
+                else {
+                    tooltip.hideToolTip();
+                    return;
+                }
             }
         }
+
+        //Debug.Log("HELOTHERE");
+
+        Debug.Log("Object on head: " + objectOnHead);
+
+        if (objectOnHead != null)
+        {
+            Debug.Log("Object on head is not null");
+            if (objectOnHead.TryGetComponent(out IInteractable interactor))
+            {
+                Debug.Log("Object on head has an interactor");
+                interactor.Interact();
+                objectOnHead = null;
+            }
+        }
+        else
+        {
+
+            for (int i = 0; i < col.Length; i++)
+            {
+                Debug.Log(col[i]);
+                if (col[i].TryGetComponent(out IInteractable interactor))
+                {
+                    Debug.Log("Interactor responding to interaction");
+
+                    if (col[i].isTrigger == true)
+                    {
+                        Debug.Log("Interactor is not a trigger");
+                        continue;
+                    }
+
+                    interactor.Interact();
+                    interactor = null;
+
+                    //if the object can be put on the players head
+                    if (col[i].TryGetComponent(out Interactable interactable))
+                    {
+                        objectOnHead = col[i].gameObject;
+                    }
+                    //return;
+                }
+                
+            }
+        }
+        //Debug.Log("Done interacting");
+    }
+
+    private void OnSprintStartPerformed(InputAction.CallbackContext value)
+    {
+        //Debug.Log("Sprint time");
+        isSprinting = true;
+    }
+
+    private void OnSprintEndPerformed(InputAction.CallbackContext value)
+    {
+        //Debug.Log("Sprint stop time");
+        isSprinting = false;
     }
 
     void Interact()
     {
-        Debug.Log("Interacting");
+        //Debug.Log("Interacting");
+    }
+
+    private void OnExitPerformed(InputAction.CallbackContext value)
+    {
+        //Application.Quit();
+        if (SceneManager.GetActiveScene().name != "Menu") {
+            GameObject.Find("GameManager").GetComponent<GameManager>().LeaveLevel();
+        }
     }
 }

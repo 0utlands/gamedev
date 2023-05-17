@@ -5,14 +5,22 @@ TagManager:
   serializedVersion: 2
   tags:
   - Environment
+  - HasDefault
+  - Guard
+  - ToSteal
+  - KeyCard
+  - KeyCard2
+  - KeyCard3
+  - KeyCard4
+  - Tooltip
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
+  - Guard
   - 
   - 
   - 

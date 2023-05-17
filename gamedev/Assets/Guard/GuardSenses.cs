@@ -17,7 +17,7 @@ public class GuardSenses
     private GameObject playerLeftArm;
 
     private GameObject guardHead;
-    private GameObject guard;
+    public GameObject guard;
 
     private float currentAlertness;
     
@@ -63,11 +63,54 @@ public class GuardSenses
         updateRateOfDiscoveryIfPlayerVisible();
     }
 
-    public void fixedUpdateGuardAlertness() 
+    public void fixedUpdateGuardAlertness(GuardStateManager guardStateManager) 
     {
         updateAlertnessUsingRateOfDiscovery();
+        updateWhetherObjInWrongState(guardStateManager);
     }
 
+    public void updateWhetherObjInWrongState(GuardStateManager guardStateManager)
+    {
+        //Debug.Log("checking default time");
+        Collider[] col = Physics.OverlapSphere(guard.transform.position, guardVisionRange);
+        //need to find a way from transitioning from 
+
+        List<GameObject> objsToReturnToNormal = new List<GameObject>();
+
+        for (int i = 0; i < col.Length; i++)
+        {
+            //Debug.Log(col[i]);
+            if (col[i].TryGetComponent(out HasDefault objWithDefault))
+            {
+                //Debug.Log("obj with default state responding to AI");
+                if (!objWithDefault.GetIfInDefaultState())
+                {
+
+                    float distanceBetweenGuardAndObj = Vector4.Distance(guard.transform.position, col[i].transform.position);
+                    float angleToObjFromGuardsEye = Vector3.Angle(guard.transform.forward, (col[i].transform.position - guard.transform.position));
+                    bool objIsVisible = isObjectVisibleToGuard(distanceBetweenGuardAndObj, angleToObjFromGuardsEye);
+
+                    if (objIsVisible)
+                    {
+
+                        RaycastHit hit;
+                        Ray landingRay = new Ray(guardHead.transform.position, (col[i].transform.position - guardHead.transform.position).normalized);
+
+                        //currently we are still raycasting if the guard is looking at a wall which is within 8 units. this could be better if we did an if checking if the PLAYEr was within 8 units instead.
+                        if (Physics.Raycast(landingRay, out hit, 8.0f))
+                        {
+                            if (hit.collider.tag == "HasDefault")//make this more efficient by adding whether player head is visible to the if somewhere
+                            {
+                                objsToReturnToNormal.Add(col[i].gameObject);
+                                guardStateManager.objToReturnToNormal = col[i].gameObject;
+                                //GameObject[] interactors = objWithDefault.GetInteractors();
+                            }                   
+                        }                      
+                    }
+                }
+            }
+        }
+    }
 
     public float GetGuardAlertness()
     {
@@ -76,7 +119,12 @@ public class GuardSenses
 
     public bool canGuardSeePlayer()
     {
-        return currentAlertness > 0;
+        return currentAlertness > 0.8 * maxAlertness;
+    }
+
+    public bool isGuardAtZeroAlertness()
+    {
+        return currentAlertness <= 0;
     }
 
     public bool isGuardAtMaxAlertness()
@@ -89,7 +137,7 @@ public class GuardSenses
 
         float distanceBetweenGuardAndPlayer = Vector4.Distance(guard.transform.position, player.transform.position);
         float angleToPlayerFromGuardsEye = Vector3.Angle(guard.transform.forward, (player.transform.position - guard.transform.position));
-        bool playerIsVisible = isPlayerVisibleToGuard(distanceBetweenGuardAndPlayer, angleToPlayerFromGuardsEye);
+        bool playerIsVisible = isObjectVisibleToGuard(distanceBetweenGuardAndPlayer, angleToPlayerFromGuardsEye);
 
         
         //UnityEngine.Debug.Log("Distance from guard to player: " + distanceBetweenGuardAndPlayer);
@@ -134,21 +182,21 @@ public class GuardSenses
         alertBar.SetAlertness(currentAlertness);
     }
 
-    public bool isPlayerVisibleToGuard(float distance, float angle)
+    public bool isObjectVisibleToGuard(float distance, float angle)
     {
         UnityEngine.Debug.DrawLine(guard.transform.position, guard.transform.forward * 20 + guard.transform.position, Color.white);
         //UnityEngine.Debug.Log("Angle between guard and player: " + angle);
         //UnityEngine.Debug.Log("guardhead direction vec: " + guardHead.transform.forward);
 
-        return isPlayerWithinGuardFov(angle) && isPlayerWithinGuardsVisionRange(distance);
+        return isObjectWithinGuardFov(angle) && isObjectWithinGuardsVisionRange(distance);
     }
 
-    public bool isPlayerWithinGuardFov(float angle)
+    public bool isObjectWithinGuardFov(float angle)
     {
         return angle < (guardFov / 2);
     }
 
-    public bool isPlayerWithinGuardsVisionRange(float distance)
+    public bool isObjectWithinGuardsVisionRange(float distance)
     {
         return distance <= guardVisionRange;
     }

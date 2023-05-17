@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class GuardDefaultState : GuardBaseState
@@ -7,14 +9,16 @@ public class GuardDefaultState : GuardBaseState
     private float maxRadiusOfGuardToWaypoint = 2.0f;
     public override void enterState(GuardStateManager guard)
     {
-        UnityEngine.Debug.Log("I am in the default state");
+        //UnityEngine.Debug.Log("I am in the default state");
         guard.agent.speed = 2.0f;
         guard.agent.SetDestination(guard.waypoints[guard.currentWaypoint].transform.position);
+        //UnityEngine.Debug.Log(this.GetType().Name);
     }
 
     public override void updateState(GuardStateManager guard)
     {
         //UnityEngine.Debug.Log("I am updating in the default state");
+
 
         if (guard.getIfGuardShouldChasePlayer())
         {
@@ -24,9 +28,17 @@ public class GuardDefaultState : GuardBaseState
         {
             guard.SwitchState(guard.seePlayerState);
         }
+        else if (guard.getIfGuardIsBeingTouchedFromBehind())
+        {
+            guard.SwitchState(guard.feelsPlayerState);
+        }
         else if (guard.getIfShouldReactToSound())
         {
             guard.SwitchState(guard.hearNoiseState);
+        }
+        else if (guard.objToReturnToNormal != null) 
+        { 
+            guard.SwitchState(guard.maintainMapState);
         }
          
         goToNextWaypoint(guard);
@@ -54,10 +66,86 @@ public class GuardDefaultState : GuardBaseState
         }
 
 
+       // UnityEngine.Debug.Log("Current waypoint: " + guard.currentWaypoint);
+        GameObject[] guards = GameObject.FindGameObjectsWithTag("Guard");
+        // guard.agent.SetDestination(guard.waypoints[guard.currentWaypoint].transform.position);
+        //UnityEngine.Debug.Log("Waypoint of guard:" + guard.waypoints[guard.currentWaypoint].transform.position.ToString());
+
+        bool isAnotherGuardGoingToMyWayPoint = false;
+
+        foreach (GameObject otherGuard in guards)
+        {
+            if (otherGuard != guard.gameObject)
+            {
+                if (otherGuard.GetComponent<GuardStateManager>() != null)
+                {
+                    GuardStateManager otherGuardManager = otherGuard.GetComponent<GuardStateManager>();
+                    if (guard.waypoints[guard.currentWaypoint].transform.position == otherGuardManager.waypoints[otherGuardManager.currentWaypoint].transform.position && (otherGuardManager.currentState.GetType().Name == "GuardDefaultState"))
+                    {
+                        if (RemainingDistance(guard.agent.path.corners) > RemainingDistance(otherGuardManager.agent.path.corners))
+                        {
+                            // guard.agent.speed = 1.0f;
+                            isAnotherGuardGoingToMyWayPoint = true;
+                        }
+                        else
+                        {
+                            // guard.agent.speed = 2.0f;
+                            isAnotherGuardGoingToMyWayPoint = false;
+                        }
+                    }
+                    else
+                    {
+                       // guard.agent.speed = 2.0f;
+                    }
+
+                }
+            }
+
+        }
+
+        if (isAnotherGuardGoingToMyWayPoint)
+        {
+            guard.agent.speed = 1.0f;
+        }
+        else
+        {
+            guard.agent.speed = 2.0f;
+        }
+
+
+        /*
+
+        foreach (GameObject otherGuard in guards)
+        {
+            if (otherGuard != guard.gameObject) { 
+                if (otherGuard.GetComponent<GuardStateManager>() != null)
+                {
+                    GuardStateManager otherGuardManager = otherGuard.GetComponent<GuardStateManager>();
+                    if (guard.waypoints[guard.currentWaypoint].transform.position == otherGuardManager.waypoints[otherGuardManager.currentWaypoint].transform.position && (otherGuardManager.currentState.GetType().Name == "GuardDefaultState"))
+                    {
+                        
+                        UnityEngine.Debug.Log("Waypoint of other guard:" + otherGuardManager.waypoints[otherGuardManager.currentWaypoint].transform.position.ToString());
+
+                        if (RemainingDistance(guard.agent.path.corners) > RemainingDistance(otherGuardManager.agent.path.corners))
+                        {
+                            isAnotherGuardGoingToMyWayPoint = true;
+                        }
+                        
+                    }
+                    
+                }
+            }
+
+        }
+
+        */
+
+
 
         if (guard.waypoints.Length > 1)
         {
-            guard.agent.speed = 2.0f;
+            //guard.agent.speed = 2.0f;
+
             if (Vector3.Distance(guard.transform.position, guard.waypoints[guard.currentWaypoint].transform.position) < 1.5f)
             {
                 if (guard.currentWaypoint >= guard.waypoints.Length - 1)
@@ -68,7 +156,6 @@ public class GuardDefaultState : GuardBaseState
                 {
                     guard.currentWaypoint++;
                 }
-
                 guard.agent.SetDestination(guard.waypoints[guard.currentWaypoint].transform.position);
             }
         }
@@ -97,4 +184,43 @@ public class GuardDefaultState : GuardBaseState
         }
     }
 
+    //author: cole slater at https://forum.unity.com/threads/unity-navmesh-get-remaining-distance-infinity.415814/
+    public float RemainingDistance(Vector3[] points)
+    {
+        if (points.Length < 2) return 0;
+        float distance = 0;
+        for (int i = 0; i < points.Length - 1; i++)
+            distance += Vector3.Distance(points[i], points[i + 1]);
+        return distance;
+    }
+
+
+    /*
+     UnityEngine.Debug.Log("Current waypoint: " + guard.currentWaypoint);
+                        GameObject[] guards = GameObject.FindGameObjectsWithTag("Guard");
+                        guard.agent.SetDestination(guard.waypoints[guard.currentWaypoint].transform.position);
+                        foreach (GameObject otherGuard in guards)
+                        {
+
+                            if (otherGuard.GetComponent<GuardStateManager>() != null)
+                            {
+                                GuardStateManager otherGuardManager = otherGuard.GetComponent<GuardStateManager>();
+                                if ((guard.waypoints[guard.currentWaypoint].transform.position == otherGuardManager.waypoints[otherGuardManager.currentWaypoint].transform.position) && (otherGuard != guard.gameObject))
+                                {
+                                    UnityEngine.Debug.Log("Waypoint of guard:" + guard.waypoints[guard.currentWaypoint].transform.position.ToString());
+                                    UnityEngine.Debug.Log("Waypoint of other guard:" + otherGuardManager.waypoints[otherGuardManager.currentWaypoint].transform.position.ToString());
+
+                                    if (RemainingDistance(guard.agent.path.corners) > RemainingDistance(otherGuardManager.agent.path.corners))
+                                    {
+                                        guard.agent.isStopped = true;
+                                    }
+                                    else
+                                    {
+                                        guard.agent.isStopped = false;
+                                    }
+                                }
+                            }
+
+                        }
+     */
 }
