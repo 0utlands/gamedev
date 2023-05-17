@@ -62,6 +62,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""c3573fe2-829b-4e99-9598-59741e604187"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -196,6 +205,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""SprintEnd"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""91588ca9-67b0-479d-8d71-a9bf682678c6"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8da0fc1a-c81c-457f-a5f3-5c6b43ea1138"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -225,6 +256,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_SprintStart = m_Player.FindAction("SprintStart", throwIfNotFound: true);
         m_Player_SprintEnd = m_Player.FindAction("SprintEnd", throwIfNotFound: true);
+        m_Player_Exit = m_Player.FindAction("Exit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -290,6 +322,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_SprintStart;
     private readonly InputAction m_Player_SprintEnd;
+    private readonly InputAction m_Player_Exit;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -298,6 +331,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @SprintStart => m_Wrapper.m_Player_SprintStart;
         public InputAction @SprintEnd => m_Wrapper.m_Player_SprintEnd;
+        public InputAction @Exit => m_Wrapper.m_Player_Exit;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -319,6 +353,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @SprintEnd.started += instance.OnSprintEnd;
             @SprintEnd.performed += instance.OnSprintEnd;
             @SprintEnd.canceled += instance.OnSprintEnd;
+            @Exit.started += instance.OnExit;
+            @Exit.performed += instance.OnExit;
+            @Exit.canceled += instance.OnExit;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -335,6 +372,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @SprintEnd.started -= instance.OnSprintEnd;
             @SprintEnd.performed -= instance.OnSprintEnd;
             @SprintEnd.canceled -= instance.OnSprintEnd;
+            @Exit.started -= instance.OnExit;
+            @Exit.performed -= instance.OnExit;
+            @Exit.canceled -= instance.OnExit;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -367,5 +407,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnSprintStart(InputAction.CallbackContext context);
         void OnSprintEnd(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
     }
 }
