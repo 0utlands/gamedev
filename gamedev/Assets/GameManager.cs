@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
         GameObject.Find("Music").GetComponent<AudioSource>().Stop();
 
         levelCompleteText.GetComponent<TextMeshProUGUI>().text = "Level " + levelNumber + " Complete!";
-        if (levelNumber < 4)
+        if (levelNumber < 5)
         {
             NextLevelUnlockedText.GetComponent<TextMeshProUGUI>().text = "Level " + (levelNumber + 1) + " Unlocked!";
         }

@@ -14,13 +14,13 @@ public class EndLevelTrigger : MonoBehaviour
         if(other.tag == "Player" && playerInside == false)
         {
             playerInside = true;
-            //Debug.Log("Player in the area");
+            Debug.Log("Player in the area");
         }
 
         if(other.tag == "ToSteal" && itemToStealInside == false)
         {
             itemToStealInside = true;
-            //Debug.Log("Obj in the area");
+            Debug.Log("Obj in the area");
         }
         if (itemToStealInside && playerInside)
         {
