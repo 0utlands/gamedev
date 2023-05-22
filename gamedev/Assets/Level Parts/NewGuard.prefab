@@ -74,7 +74,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1344967075727395455}
   - component: {fileID: 1344967075734823993}
-  - component: {fileID: 7292526944537171241}
   - component: {fileID: 7292526944537171286}
   - component: {fileID: 7292526944537171287}
   - component: {fileID: 7292526944537171284}
@@ -108,7 +107,7 @@ Transform:
   - {fileID: 7292526944165388644}
   - {fileID: 7292526943630035879}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1344967075734823993
 Animator:
@@ -130,19 +129,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &7292526944537171241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1344967075727431199}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98345a4f6488c874d88e7d2c76d49ed6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 7292526944537171286}
 --- !u!195 &7292526944537171286
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -250,6 +236,7 @@ MonoBehaviour:
   isGuardBeingTouchedFromBehind: 0
   playerNotNullWhenTouched: {fileID: 0}
   huhSound: {fileID: 7292526944537171244}
+  isGuardAtZeroAlertness: 0
 --- !u!65 &7292526944537171283
 BoxCollider:
   m_ObjectHideFlags: 0
