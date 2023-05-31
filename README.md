@@ -1,7 +1,10 @@
 # gamedev
 Games Development
+
 #INFORMATION
+
 All scripts etc. can be found in the folder called "gamedev"
+
 The game can be found in the folder called "build"
 
 
