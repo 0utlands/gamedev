@@ -82,6 +82,7 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
         //print(canGuardSeePlayer);
         isGuardAtMaxAlertness = guardSenses.isGuardAtMaxAlertness();
         isGuardAtZeroAlertness = guardSenses.isGuardAtZeroAlertness();
+        moveFromDefaultToSoundState = moveFromDefaultToSoundState; //written here for clarity so you know its being checked in updateState.
         currentState.updateState(this);
         updateAnimations();
 
