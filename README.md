@@ -1,5 +1,9 @@
 # gamedev
 Games Development
+#INFORMATION
+All scripts etc. can be found in the folder called "gamedev"
+The game can be found in the folder called "build"
+
 
 ##HOW TO RUN THE GAME
 - Download the project as a zip file (Press the green "code" button)
