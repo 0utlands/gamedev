@@ -9,7 +9,7 @@ using UnityEngine;
 public class DrawRay : MonoBehaviour
 {
 
-    
+    //used in editor to mak the guards vision rays appear.
 
     [SerializeField] private GameObject guardHead;
 

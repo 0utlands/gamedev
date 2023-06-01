@@ -11,6 +11,8 @@ public class GuardDefaultState : GuardBaseState
     {
         //UnityEngine.Debug.Log("I am in the default state");
         guard.agent.speed = 2.0f;
+
+        //set the guards destination as their current waypoint.
         guard.agent.SetDestination(guard.waypoints[guard.currentWaypoint].transform.position);
         //UnityEngine.Debug.Log(this.GetType().Name);
     }
@@ -19,7 +21,7 @@ public class GuardDefaultState : GuardBaseState
     {
         //UnityEngine.Debug.Log("I am updating in the default state");
 
-
+        //check if we should switch state.
         if (guard.getIfGuardShouldChasePlayer())
         {
             guard.SwitchState(guard.chasePlayerState);
@@ -41,6 +43,7 @@ public class GuardDefaultState : GuardBaseState
             guard.SwitchState(guard.maintainMapState);
         }
          
+        //if we shoudlnt switch state, continue moving to the next waypoint.
         goToNextWaypoint(guard);
         //guard.alertness = helper.updateAlertness(guard)
 
@@ -66,11 +69,8 @@ public class GuardDefaultState : GuardBaseState
         }
 
 
-       // UnityEngine.Debug.Log("Current waypoint: " + guard.currentWaypoint);
-        GameObject[] guards = GameObject.FindGameObjectsWithTag("Guard");
-        // guard.agent.SetDestination(guard.waypoints[guard.currentWaypoint].transform.position);
-        //UnityEngine.Debug.Log("Waypoint of guard:" + guard.waypoints[guard.currentWaypoint].transform.position.ToString());
-
+       //this code checks if other guards are going to the same waypoint as this guard, and if so, the guards which are furhter away from the waypoint will slow down (remember, every guard is running this check. only the cloest guard will move fastest)
+        GameObject[] guards = GameObject.FindGameObjectsWithTag("Guard");  
         bool isAnotherGuardGoingToMyWayPoint = false;
 
         foreach (GameObject otherGuard in guards)
@@ -141,7 +141,7 @@ public class GuardDefaultState : GuardBaseState
         */
 
 
-
+        //loop thriough the waypoints
         if (guard.waypoints.Length > 1)
         {
             //guard.agent.speed = 2.0f;
@@ -161,7 +161,7 @@ public class GuardDefaultState : GuardBaseState
         }
         else if (guard.agent.remainingDistance < 0.5)
         {
-            //agent.steeringTarget = waypoints[currentWaypoint].transform.position;
+            
 
             //ROTATING THE CHARACTER TO LOOK WHERE THEY ARE GOING
 
@@ -184,6 +184,7 @@ public class GuardDefaultState : GuardBaseState
         }
     }
 
+    //unitys agent.renmainindDistance can sometime be unreliable - it sometimes returns a remaining distance of zero on the first call. this function mitigates that issue.
     //author: cole slater at https://forum.unity.com/threads/unity-navmesh-get-remaining-distance-infinity.415814/
     public float RemainingDistance(Vector3[] points)
     {
@@ -193,34 +194,4 @@ public class GuardDefaultState : GuardBaseState
             distance += Vector3.Distance(points[i], points[i + 1]);
         return distance;
     }
-
-
-    /*
-     UnityEngine.Debug.Log("Current waypoint: " + guard.currentWaypoint);
-                        GameObject[] guards = GameObject.FindGameObjectsWithTag("Guard");
-                        guard.agent.SetDestination(guard.waypoints[guard.currentWaypoint].transform.position);
-                        foreach (GameObject otherGuard in guards)
-                        {
-
-                            if (otherGuard.GetComponent<GuardStateManager>() != null)
-                            {
-                                GuardStateManager otherGuardManager = otherGuard.GetComponent<GuardStateManager>();
-                                if ((guard.waypoints[guard.currentWaypoint].transform.position == otherGuardManager.waypoints[otherGuardManager.currentWaypoint].transform.position) && (otherGuard != guard.gameObject))
-                                {
-                                    UnityEngine.Debug.Log("Waypoint of guard:" + guard.waypoints[guard.currentWaypoint].transform.position.ToString());
-                                    UnityEngine.Debug.Log("Waypoint of other guard:" + otherGuardManager.waypoints[otherGuardManager.currentWaypoint].transform.position.ToString());
-
-                                    if (RemainingDistance(guard.agent.path.corners) > RemainingDistance(otherGuardManager.agent.path.corners))
-                                    {
-                                        guard.agent.isStopped = true;
-                                    }
-                                    else
-                                    {
-                                        guard.agent.isStopped = false;
-                                    }
-                                }
-                            }
-
-                        }
-     */
 }

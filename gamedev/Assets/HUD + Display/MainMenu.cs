@@ -53,6 +53,7 @@ public class MainMenu : MonoBehaviour
         public int levelUnlocked;
     }
 
+    //saving and loading. we save the players progress to a JSON. 
     public void Save()
     {
         SaveObj saveObj = new SaveObj
@@ -65,6 +66,7 @@ public class MainMenu : MonoBehaviour
 
     public void Load()
     {
+        //if we can find a save file, start from the players last level. otherwise, start from level 1.
         if (File.Exists(Application.dataPath + "/save.txt"))
         {
             string saveString = File.ReadAllText(Application.dataPath + "/save.txt");

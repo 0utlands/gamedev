@@ -13,6 +13,8 @@ public class GuardHearNoiseState : GuardBaseState
 
     public override void enterState(GuardStateManager guard)
     {
+
+        //if we have heard a sound, go to the location of the sound.
         Debug.Log("HEARING SOUND STATE ENTERED");
         guard.agent.speed = 2.0f;
         UnityEngine.Debug.Log("Guard hearing updating, going to " + guard.mostRecentSoundHeard.pos);
@@ -23,7 +25,7 @@ public class GuardHearNoiseState : GuardBaseState
 
     public override void updateState(GuardStateManager guard)
     {
-
+        //stop moving when we have found the sounds origin.
         bool shouldGuardStop = (RemainingDistance(guard.agent.path.corners) < 0.5);
 
         //Debug.Log("Should guiard stop?" + shouldGuardStop);
@@ -34,6 +36,7 @@ public class GuardHearNoiseState : GuardBaseState
             retry = true;
         }
 
+        //sometimes the remaining distances is incorrect on the first few frames, even with cole slaters function. this code keeps checking for a few frames to mitigate this.
 
         if (frame < maxFrames && retry == true)
         {
@@ -47,7 +50,7 @@ public class GuardHearNoiseState : GuardBaseState
         }
 
 
-        //coudl move this to a fixedUpdateState function to make it a bit less cumbersome for computer
+        //if we should switch states, switch states.
         if (guard.getIfGuardShouldChasePlayer())
         {
             Debug.Log("Chasing player");
@@ -58,7 +61,7 @@ public class GuardHearNoiseState : GuardBaseState
             Debug.Log("seeing player");
             guard.SwitchState(guard.seePlayerState);
         }
-        else if (guard.agent.remainingDistance < 0.5 && retry == false) //maybe work out if we want the AI returning to investigating the sound if teyve seen the player?
+        else if (guard.agent.remainingDistance < 0.5 && retry == false) 
         {
             Debug.Log("Swtiching state");
             guard.moveFromDefaultToSoundState = false;
@@ -66,6 +69,7 @@ public class GuardHearNoiseState : GuardBaseState
         }
     }
 
+    //unitys agent.renmainindDistance can sometime be unreliable - it sometimes returns a remaining distance of zero on the first call. this function mitigates that issue.
     //author: cole slater at https://forum.unity.com/threads/unity-navmesh-get-remaining-distance-infinity.415814/
     public float RemainingDistance(Vector3[] points)
     {

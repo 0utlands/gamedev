@@ -11,10 +11,10 @@ public class GuardMaintainMapState : GuardBaseState
     public IInteractable closestInteractorToSwitch;
     public override void enterState(GuardStateManager guard)
     {
+        //this state is for mainting the state of the map. it is entered if the guard spotted an object that is not in its default state, in its guardSenses instantiation in the GSM.
         guard.agent.speed = 3.0f;
         guard.agent.isStopped = false;
-        //UnityEngine.Debug.Log("Entering maintain map state!");
-        //UnityEngine.Debug.Log("Object to maintain:" + guard.objToReturnToNormal.name);
+        
 
         //check if the object it is trying tos wtich back to default subscribes to the hasdefault interface
         if (guard.objToReturnToNormal.TryGetComponent(out HasDefault objWithDefault))
@@ -43,8 +43,7 @@ public class GuardMaintainMapState : GuardBaseState
                 {
                     //if the button is the closest button, set this as the new closest button.
                     guard.agent.SetDestination(interactor.transform.position);
-                    //UnityEngine.Debug.Log("Remaining distance: " + RemainingDistance(guard.agent.path.corners));
-                    //UnityEngine.Debug.Log("Remaining distance: " + guard.agent.remainingDistance);
+                    
                     if (RemainingDistance(guard.agent.path.corners) < closestDistance)
                     {
                         if (interactor.TryGetComponent(out IInteractable interactivePart))
@@ -70,6 +69,7 @@ public class GuardMaintainMapState : GuardBaseState
     {
         //throw new System.NotImplementedException();
 
+        //if we are near the object to interact with, interact with it.
         if (guard.objToReturnToNormal != null)
         {
             if (guard.agent.remainingDistance < 0.5)
@@ -79,12 +79,13 @@ public class GuardMaintainMapState : GuardBaseState
             }
         }
 
-
+        //if weve interacted with the object, go back to the default state.
         if (guard.objToReturnToNormal == null)
         {
             guard.SwitchState(guard.defaultState);
         }
 
+        //if we see the player or hear a noise before finishing the interacrtion, deal with that. because guard.objToReturnToNormal != null, this guard will return to this state after dealing with the player.
         if (guard.getIfGuardShouldChasePlayer())
         {
             guard.SwitchState(guard.chasePlayerState);
@@ -99,6 +100,7 @@ public class GuardMaintainMapState : GuardBaseState
         }
     }
 
+    //unitys agent.renmainindDistance can sometime be unreliable - it sometimes returns a remaining distance of zero on the first call. this function mitigates that issue.
     //author: cole slater at https://forum.unity.com/threads/unity-navmesh-get-remaining-distance-infinity.415814/
     public float RemainingDistance(Vector3[] points)
     {

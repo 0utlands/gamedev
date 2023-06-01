@@ -6,6 +6,7 @@ public class AlertBarScript : MonoBehaviour
 {
     public Slider slider;
 
+    //adjust the alertness bar on the guards head depeding on the guards alertness.
     public void SetAlertness(float alertness)
     {
         slider.value = alertness;

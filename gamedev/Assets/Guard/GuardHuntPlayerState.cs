@@ -6,17 +6,17 @@ public class GuardHuntPlayerState : GuardBaseState
 {
     public override void enterState(GuardStateManager guard)
     {
-        //Debug.Log("SEE PLAYER STATE ENTERED");
-        //guard.agent.speed = 1.0f;
+        //this state is entered if the guard been chasing the player, but their alertness has dropped below 100, measning theyve lost sight.
         guard.agent.isStopped = false;
     }
 
     public override void updateState(GuardStateManager guard)
     {
         
-        //the gaurd is alert to the player. set the guards Ai destination to be the players location, and make their speed a bit slower so they creep towards them.
+        //keep hunting the player until alertness reaches zero.
         guard.agent.SetDestination(guard.guardSenses.player.transform.position);
-        //coudl move this to a fixedUpdateState function to make it a bit less cumbersome for computer
+        
+        //if alertness reaches zero, go back to default state. if alertness reaches 100, chase the player again.
         if (guard.getIfGuardShouldStopHuntingPlayer())
         {
             guard.SwitchState(guard.defaultState);

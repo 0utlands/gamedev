@@ -55,6 +55,7 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
 
     private void Awake()
     {
+        //initialise guard AI so it goes to its first waypoint, and find the nguards agent, etc.
         agent = GetComponent<NavMeshAgent>();
         guardAnimator = GetComponent<Animator>();
         guardAnimator.SetBool("IsFindingPath", false);
@@ -66,6 +67,7 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
     // Start is called before the first frame update
     void Start()
     {
+        //guards enter the state machine in their default state.
         currentState = defaultState;
 
         defaultState.enterState(this);
@@ -74,22 +76,26 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
     // Update is called once per frame
     void Update()
     {
-        //updateAlertness
-        //checkForSound
+        //update the guards vision: have they seen the player? have they seen objects out of state?
         guardSenses.updateGuardSenses();
-        //currentAlertness = guardSenses.GetGuardAlertness();
+       
+        //update GSM bools which suggest whether to change state according to the guards vision and audio senses.
         canGuardSeePlayer = guardSenses.canGuardSeePlayer();
-        //print(canGuardSeePlayer);
         isGuardAtMaxAlertness = guardSenses.isGuardAtMaxAlertness();
         isGuardAtZeroAlertness = guardSenses.isGuardAtZeroAlertness();
         moveFromDefaultToSoundState = moveFromDefaultToSoundState; //written here for clarity so you know its being checked in updateState.
+
+        //update guards atete using these booleans
         currentState.updateState(this);
+
+        //update the guards aninmations, depending on whether they are moving or not
         updateAnimations();
 
     }
 
     private void FixedUpdate()
     {
+        //fixed update the guards vision senses, so thei alertness changes at a fixed rate. we dont want it to change every frame, as this would give high framerate players a disadvantage.
         guardSenses.fixedUpdateGuardAlertness(this);
     }
     private void updateAnimations()
@@ -153,7 +159,7 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
         return isGuardAtZeroAlertness;
     }
 
-
+    //if a sound plays, and this guard is within its radius, then this function runs. it is called in the Sounds class.
     public void RespondToSound(Sound sound)
     {
         Debug.Log($"Guard heard sound at {sound.pos} with range {sound.range}");
@@ -163,7 +169,7 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
         //SwitchState(hearNoiseState);
     }
 
-    //check if the guard is colliding with the player
+    //check if the guard is colliding with the player - only used within guardChaseState to check if the guard has caught the player.
     void OnCollisionEnter(Collision collisionInfo)
     {
         if (collisionInfo.collider.tag == "Player")
@@ -177,6 +183,7 @@ public class GuardStateManager : MonoBehaviour, SoundHearer
         }
     }
 
+    //check if theplayer is within a small collider capsule which extends slightly behind the guard - only used for making the guard turn around if the player touches them from behind. handling if the guard has caught the player happens in guardChaseState - we dont want the player to be instantly caught if they touch the guard while the guard isnt chasing them.
     void OnTriggerEnter(Collider collider)
     {
         if (collider.tag == "Player")

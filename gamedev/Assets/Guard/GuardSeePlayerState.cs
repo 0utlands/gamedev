@@ -16,7 +16,8 @@ public class GuardSeePlayerState : GuardBaseState
         
         //the gaurd is alert to the player. set the guards Ai destination to be the players location, and make their speed a bit slower so they creep towards them.
         guard.agent.SetDestination(guard.guardSenses.player.transform.position);
-        //coudl move this to a fixedUpdateState function to make it a bit less cumbersome for computer
+        
+        //if we should switc states, switch state.
         if (!guard.getIfGuardCanSeePlayer())
         {
             guard.SwitchState(guard.defaultState);

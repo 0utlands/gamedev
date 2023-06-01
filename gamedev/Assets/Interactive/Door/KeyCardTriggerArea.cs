@@ -9,6 +9,7 @@ public class KeyCardTriggerArea : MonoBehaviour
     [SerializeField] private AudioSource closeSound;
     [SerializeField] private string keyCardTag = "KeyCard";
 
+    //if the keycard with the correct tag enters the area, open the door. (using gameEvents)
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == keyCardTag)
@@ -21,6 +22,7 @@ public class KeyCardTriggerArea : MonoBehaviour
         
     }
 
+    //if the keycard with the correct tag leaves the area, close the door.(using gameEvents)
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == keyCardTag)

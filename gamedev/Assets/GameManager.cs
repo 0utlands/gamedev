@@ -17,25 +17,29 @@ public class GameManager : MonoBehaviour
     bool gameHasEnded = false;
     [SerializeField] private float delayBeforeRestart = 0.5f;
 
+    //this block of variables is used to apply visual effects depending on what the max guard alertness is.
     private float alertness;
+    private float previousAlertness = 0;
     private Volume theVolume;
     private ChromaticAberration theChromaticAberration;
     private FilmGrain theFilmGrain;
     private Vignette theVignette;
     [SerializeField] private float guardAlertness = 100;
     private List<GuardStateManager> guardStateManagers = new List<GuardStateManager>();
-
+    //this block of variables are the audio effects that play depending on the max guard alertness.
     public AudioSource stinger1;
     public AudioSource stinger2;
     public AudioSource suspenseLoop;
-    public int levelNumber;
+    private bool shouldStinger2Play = true;
+
+    public int levelNumber; //used to track which levels the user has unlcoked
     private GameObject menu;
+
+    //used to diaplay tooltips and button promptas as UI.
     public GameObject TooltipText;
     public GameObject DoorText;
 
-    private bool shouldStinger2Play = true;
-
-    private float previousAlertness = 0;
+    
     bool levelCompleted = false;
 
     public void EndGame()
@@ -53,6 +57,8 @@ public class GameManager : MonoBehaviour
     public void LeaveLevel() {
         Debug.Log("Exited level");
         levelCompleted = true;
+
+        //set up the menu
         menu.SetActive(true);
         GameObject mainMenu = menu.transform.GetChild(1).gameObject;
         GameObject levelSelect = menu.transform.GetChild(2).gameObject;
@@ -70,6 +76,9 @@ public class GameManager : MonoBehaviour
 
         SceneManager.LoadScene(6);
     }
+
+    //called when the player finishes a level successully. It makes the menu active, and shows the player a level complete screen.
+    //It increases the number of levels unlocked if the player has not already completed the level.
     public void CompleteLevel()
     {
         Debug.Log("Completed level");
@@ -166,7 +175,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         
-
+        //upon starting a level, find all the guard's GSM's, and add them to a list. this list is used in update to update the visual and audio effects.
         GameObject[] guardObjs = GameObject.FindGameObjectsWithTag("Guard");
         foreach (GameObject guardObj in guardObjs)
         {
@@ -195,6 +204,7 @@ public class GameManager : MonoBehaviour
 
         if (!levelCompleted)
         {
+            //get the max guard alertness, and apply visual effects depending on its intensity.
             float alertnessThisFrame = 0;
             foreach (GuardStateManager guard in guardStateManagers)
             {
@@ -206,7 +216,7 @@ public class GameManager : MonoBehaviour
             }
             alertness = alertnessThisFrame;
 
-
+            //apply audio effects for if the player is seen, or the first time the guard reaches its max alertness (these audio effects only play again once the player is completely safe)
             if (alertness <= 0)
             {
                 shouldStinger2Play = true;

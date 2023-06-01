@@ -14,10 +14,8 @@ public class DoorButton : MonoBehaviour, IInteractable
     }
     public void Interact()
     {
-        
+        //if interacted with, play a sound and toggle the door.
         buttonSound.Play();
-        
-        
         GameEvents.instance.DoorwayToggle(id);
        
         
@@ -29,6 +27,7 @@ public class DoorButton : MonoBehaviour, IInteractable
     }
     void OnTriggerEnter(Collider other)
     {
+        //if the player comes near the button, display text prompting them to press it.
         if (DoorText.activeInHierarchy == false && other.tag == "Player")
         {
             DoorText.SetActive(true);

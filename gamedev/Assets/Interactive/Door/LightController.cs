@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LightController : MonoBehaviour
 {
+    //class used for turning the lights linked to keycard doors onand off. when these doors are open, the light turns on.
+
     public int id;
     private bool m_isOpen = false;
     // Start is called before the first frame update

@@ -6,8 +6,12 @@ public class EndLevelTrigger : MonoBehaviour
 {
     public GameManager gameManager;
 
+    //used or working out if the level is complete.
+
     public bool playerInside = false;
     public bool itemToStealInside;
+
+    //if the player and the final item to steal are in this collider (located at the end of every level) at the same time, the level completes.
     private void OnTriggerEnter(Collider other)
     {
 

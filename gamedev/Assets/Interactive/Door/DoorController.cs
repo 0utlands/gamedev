@@ -21,6 +21,7 @@ public class DoorController : MonoBehaviour, HasDefault
         //m_doorCloseHash = Animator.StringToHash("CloseDoor");
     }
     
+    //impelmentation of hasDefault's getIfInDefaultState method. This is so that if guards see it (in the guardSenses script) and its out of default state, they will put it in its default state with the nearest accessible interactor (usually a button)
     public bool GetIfInDefaultState()
     {
         if (guardShouldMaintainState) 
@@ -33,6 +34,7 @@ public class DoorController : MonoBehaviour, HasDefault
         }
     }
 
+    //usef by guards fo getting what they can use to interact with this object. they check through these interactors in guardmaintainMapState to find the nearest accessbiel one.
     public List<GameObject> GetInteractors()
     {
         return linkedButtons;
@@ -87,6 +89,8 @@ public class DoorController : MonoBehaviour, HasDefault
     }
 
     //to make a new door, with a new triggering mechanism - make sure the new doors' animator transition bool is named DoorIsOpen, and make sure anything triggering it acts in the same way as the doortrigger class.
+
+    //used for animating the door, depending on whether it is open or closed.
     public void Open()
     {
         m_animatior.SetBool("DoorIsOpen", true);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface HasDefault
 {
-
+    //interface applied to objects that have a default state.
     
     //get if this map part is in its default state. if false, the guard who sees it should return it to its default state.
     public bool GetIfInDefaultState()

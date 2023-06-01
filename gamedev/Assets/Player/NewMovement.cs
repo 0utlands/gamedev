@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class NewMovement : MonoBehaviour
 {
-
+    //this class is for handling player input. it moves them around i they press WASD, interacts if they press F, etc. it also handles the sprint meter. these functions are called in the PlayerInput class, which was generated using unitys input system (https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/QuickStartGuide.html). Controllers and arrow keys are also supported.
     private PlayerInput controls;
     private Vector3 moveVec = Vector3.zero;//this is a vec3 because we are moving in the x and z axis
     private CharacterController charController;
@@ -135,9 +135,11 @@ public class NewMovement : MonoBehaviour
 
 
         //Debug.Log("Interaction time");
-        
+        //user presses interact - find interactos within a small radius and store them in col.
         Collider[] col = Physics.OverlapSphere(this.transform.position, interactionRange);
 
+
+        //handling if the interactor is a tooltip:
         GameObject[] activeTooltips = GameObject.FindGameObjectsWithTag("Tooltip");
         foreach (GameObject activeTooltip in activeTooltips)
         {
@@ -165,8 +167,9 @@ public class NewMovement : MonoBehaviour
 
         Debug.Log("Object on head: " + objectOnHead);
 
+        //handling if the interactor is an interactable object:
         if (objectOnHead != null)
-        {
+        {//if there is an object on the players head drop it.
             Debug.Log("Object on head is not null");
             if (objectOnHead.TryGetComponent(out IInteractable interactor))
             {
@@ -177,7 +180,7 @@ public class NewMovement : MonoBehaviour
         }
         else
         {
-
+            //else, pick up objects that can be put on players head, or interact with them if they cant.
             for (int i = 0; i < col.Length; i++)
             {
                 Debug.Log(col[i]);

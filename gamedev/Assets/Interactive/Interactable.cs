@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour, IInteractable
 {
+    //script which is applied to objects which can be picked up.
     public KeyCode interactKey = KeyCode.E;
     private bool isItemOnHead = false;
     private Vector3 playerPos;
@@ -27,6 +28,7 @@ public class Interactable : MonoBehaviour, IInteractable
     {
     }
 
+    //if interacted with, toggle between being on the players head or the floor.
     public void Interact()
     {
         Debug.Log("Interracting with box!");
@@ -47,7 +49,7 @@ public class Interactable : MonoBehaviour, IInteractable
             }
         }
     }
-    // Update is called once per frame
+    // Update is called once per frame. if on the players ehad, update position accordingly.
     void Update()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -72,7 +74,7 @@ public class Interactable : MonoBehaviour, IInteractable
         }
         
 
-        //hopefully this code will mean that the object goes back on the users head if the drop it and it falls through floor.
+        //this code means that the object goes back on the users head if the drop it and it falls through floor.
         if (!isItemOnHead && transform.position.y < -10)
         {
             putItemOnHead();
